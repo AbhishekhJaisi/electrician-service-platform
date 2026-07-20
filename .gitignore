@@ -1,0 +1,26 @@
+# Dependencies
+node_modules/
+
+# Env files — never commit secrets
+.env
+.env.local
+.env.production
+
+# Build output
+dist/
+build/
+
+# Prisma generated
+backend/node_modules/.prisma/
+
+# Test/debug files
+backend/test-db.js
+backend/db-error.txt
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Editor
+.vscode/
+*.log

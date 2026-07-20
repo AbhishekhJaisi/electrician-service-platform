@@ -1,0 +1,67 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model Admin {
+  id        Int      @id @default(autoincrement())
+  username  String   @unique
+  password  String   // bcrypt hash
+  createdAt DateTime @default(now())
+}
+
+model Business {
+  id       Int    @id @default(autoincrement())
+  name     String
+  owner    String
+  tagline  String
+  phone    String
+  whatsapp String
+  email    String
+  address  String
+  hours    String
+  years    Int
+}
+
+model Service {
+  id       Int    @id @default(autoincrement())
+  name     String
+  desc     String
+  price    Int    // in rupees (starting price)
+  unit     String @default("starting")
+  time     String
+  icon     String // lucide icon name as string
+  order    Int    @default(0)
+  active   Boolean @default(true)
+}
+
+model Review {
+  id        Int      @id @default(autoincrement())
+  name      String
+  area      String
+  rating    Int
+  text      String
+  date      String
+  active    Boolean  @default(true)
+  createdAt DateTime @default(now())
+}
+
+model Area {
+  id     Int    @id @default(autoincrement())
+  name   String @unique
+  order  Int    @default(0)
+}
+
+model Enquiry {
+  id        Int      @id @default(autoincrement())
+  name      String
+  phone     String
+  email     String   @default("")
+  service   String
+  message   String   @default("")
+  status    String   @default("new") // new | contacted | resolved
+  createdAt DateTime @default(now())
+}
