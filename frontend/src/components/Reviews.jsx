@@ -9,6 +9,7 @@ export default function Reviews() {
       <div className="max-w-6xl mx-auto px-5 py-16">
         <h2 className="text-3xl font-bold text-[#0F1420] mb-10"
           style={{ fontFamily: "'Space Grotesk', sans-serif" }}>What customers say</h2>
+          
 
         <div className="grid md:grid-cols-3 gap-5">
           {reviews.map((r) => (

@@ -24,10 +24,24 @@ export default function ServiceAreas() {
             ))}
           </div>
         </div>
-        <div className="aspect-[4/3] bg-[#F5F6F8] rounded-2xl border border-gray-200 flex items-center justify-center">
-          <span className="text-gray-400 text-sm" style={{ fontFamily: "'IBM Plex Mono', monospace" }}>
-            [ Google Maps embed — coverage radius ]
-          </span>
+        <div className="relative w-full aspect-[16/11] md:aspect-[4/3] rounded-3xl overflow-hidden ring-1 ring-inset ring-gray-200/70 shadow-sm bg-gray-50">
+          <div className="absolute top-4 left-4 z-10 flex items-center gap-2 rounded-full bg-white/95 backdrop-blur-sm border border-gray-200 px-4 py-2 shadow-sm">
+            <span className="h-2 w-2 rounded-full bg-blue-600" />
+            <span className="text-sm font-medium text-gray-900">Margherita, Assam</span>
+          </div>
+
+          <iframe
+            title="Margherita, Assam"
+            src="https://www.google.com/maps?q=Your+Business+Name,+Margherita,+Assam,+India&z=14&output=embed"
+            className="w-full h-full"
+            style={{ border: 0 }}
+            loading="lazy"
+            allowFullScreen
+            referrerPolicy="no-referrer-when-downgrade"
+          />
+
+          {/* Bottom fade so the Google attribution bar blends instead of looking bolted-on */}
+          <div className="pointer-events-none absolute bottom-0 left-0 right-0 h-10 bg-gradient-to-t from-white/40 to-transparent" />
         </div>
       </div>
     </section>
