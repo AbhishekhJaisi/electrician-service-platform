@@ -3,13 +3,14 @@ generator client {
 }
 
 datasource db {
-  provider = "postgresql"
+  provider = "mysql"
+  url      = env("DATABASE_URL")
 }
 
 model Admin {
   id        Int      @id @default(autoincrement())
   username  String   @unique
-  password  String   // bcrypt hash
+  password  String
   createdAt DateTime @default(now())
 }
 
@@ -27,15 +28,15 @@ model Business {
 }
 
 model Service {
-  id       Int    @id @default(autoincrement())
-  name     String
-  desc     String
-  price    Int    // in rupees (starting price)
-  unit     String @default("starting")
-  time     String
-  icon     String // lucide icon name as string
-  order    Int    @default(0)
-  active   Boolean @default(true)
+  id     Int     @id @default(autoincrement())
+  name   String
+  desc   String
+  price  Int
+  unit   String  @default("starting")
+  time   String
+  icon   String
+  order  Int     @default(0)
+  active Boolean @default(true)
 }
 
 model Review {
@@ -50,9 +51,9 @@ model Review {
 }
 
 model Area {
-  id     Int    @id @default(autoincrement())
-  name   String @unique
-  order  Int    @default(0)
+  id    Int    @id @default(autoincrement())
+  name  String @unique
+  order Int    @default(0)
 }
 
 model Enquiry {
@@ -62,6 +63,16 @@ model Enquiry {
   email     String   @default("")
   service   String
   message   String   @default("")
-  status    String   @default("new") // new | contacted | resolved
+  status    String   @default("new")
   createdAt DateTime @default(now())
+}
+
+model Electrician{
+  id Int @id @default(autoincrement())
+  name String
+  phone String
+  email String?
+  experience Int
+  city String
+  state String
 }

@@ -2,6 +2,8 @@ require("dotenv").config();
 const express = require("express");
 const cors    = require("cors");
 
+const prisma = require("./lib/prisma");
+
 const authRoutes     = require("./routes/authRoutes");
 const businessRoutes = require("./routes/businessRoutes");
 const serviceRoutes  = require("./routes/serviceRoutes");
@@ -32,6 +34,19 @@ app.get("/api/health", (_req, res) => res.json({ status: "ok" }));
 app.use(notFound);
 app.use(errorHandler);
 
-app.listen(PORT, () => {
-  console.log(`VoltFix API running on http://localhost:${PORT}`);
-});
+async function startServer() {
+  try {
+    await prisma.$connect();
+    console.log("✅ Database connected successfully.");
+
+    app.listen(PORT, () => {
+      console.log(`🚀 VoltFix API running at http://localhost:${PORT}`);
+    });
+  } catch (error) {
+    console.error("❌ Failed to connect to the database.");
+    console.error(error.message);
+    process.exit(1);
+  }
+}
+
+startServer();
