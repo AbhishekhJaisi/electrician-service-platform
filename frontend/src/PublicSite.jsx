@@ -37,9 +37,9 @@ export default function PublicSite() {
       api.getAreas(),
     ]).then(([b, s, r, a]) => {
       if (b.status === "fulfilled" && b.value.data) setBusiness(b.value.data);
-      if (s.status === "fulfilled" && s.value.data) setServices(s.value.data);
-      if (r.status === "fulfilled" && r.value.data) setReviews(r.value.data);
-      if (a.status === "fulfilled" && a.value.data) setAreas(a.value.data.map((x) => x.name));
+      if (s.status === "fulfilled" && s.value.data?.length > 0) setServices(s.value.data);
+      if (r.status === "fulfilled" && r.value.data?.length > 0) setReviews(r.value.data);
+      if (a.status === "fulfilled" && a.value.data?.length > 0) setAreas(a.value.data.map((x) => x.name));
     });
   }, []);
 

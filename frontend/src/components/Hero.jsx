@@ -58,7 +58,7 @@ export default function Hero() {
         >
           <span>{BUSINESS.years}+ yrs experience</span>
           <span className="w-1 h-1 rounded-full bg-gray-600" />
-          <span>100+ jobs completed</span>
+          <span>20+ jobs completed</span>
         </div>
       </div>
 

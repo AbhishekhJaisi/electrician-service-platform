@@ -18,7 +18,7 @@ export default function Services() {
 
         <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
           {services.map((svc) => {
-            const Icon = Icons[svc.icon] ?? Icons.Zap;
+        const Icon = typeof svc.icon === "string" ? (Icons[svc.icon] ?? Icons.Zap) : (svc.icon ?? Icons.Zap);
             const price = typeof svc.price === "number" ? `₹${svc.price}` : svc.price;
             return (
               <div key={svc.id ?? svc.name}
