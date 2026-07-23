@@ -7,8 +7,8 @@ const INITIAL_FORM = { name: "", phone: "", email: "", service: "", message: "" 
 
 export default function Contact() {
   const { business: BUSINESS, services } = useSiteData();
-  const [form, setForm]   = useState(INITIAL_FORM);
-  const [sent, setSent]   = useState(false);
+  const [form, setForm] = useState(INITIAL_FORM);
+  const [sent, setSent] = useState(false);
   const [error, setError] = useState("");
 
   const handleChange = (e) => setForm((p) => ({ ...p, [e.target.name]: e.target.value }));
@@ -35,11 +35,11 @@ export default function Contact() {
             style={{ fontFamily: "'Space Grotesk', sans-serif" }}>Request a service</h2>
           <div className="space-y-5 text-sm">
             {[
-              { Icon: Phone,         text: BUSINESS.phone },
+              { Icon: Phone, text: BUSINESS.phone },
               { Icon: MessageCircle, text: `WhatsApp: ${BUSINESS.phone}` },
-              { Icon: Mail,          text: BUSINESS.email },
-              { Icon: MapPin,        text: BUSINESS.address },
-              { Icon: Clock,         text: BUSINESS.hours },
+              { Icon: Mail, text: BUSINESS.email },
+              { Icon: MapPin, text: BUSINESS.address },
+              { Icon: Clock, text: BUSINESS.hours },
             ].map(({ Icon, text }) => (
               <div key={text} className="flex items-center gap-3">
                 <Icon className="w-4 h-4 text-[#1E56E3] shrink-0" />

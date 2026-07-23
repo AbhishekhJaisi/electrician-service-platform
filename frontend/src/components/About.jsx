@@ -13,7 +13,7 @@ export default function About() {
             className="text-gray-400 text-sm"
             style={{ fontFamily: "'IBM Plex Mono', monospace" }}
           >
-            [ owner photo ]
+            [ owner photo]
           </span>
         </div>
 

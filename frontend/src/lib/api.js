@@ -52,9 +52,12 @@ export const api = {
   deleteService:  (id)       => request(`/services/${id}`,{ method: "DELETE" }),
 
   // Admin — reviews
+  getReviewsAll:    ()       => request("/reviews/admin/all"),
   createReview:   (body)     => request("/reviews",       { method: "POST",   body: JSON.stringify(body) }),
+  submitReview:   (body)     => request("/reviews/public", { method: "POST",   body: JSON.stringify(body) }),
   updateReview:   (id, body) => request(`/reviews/${id}`, { method: "PUT",    body: JSON.stringify(body) }),
   deleteReview:   (id)       => request(`/reviews/${id}`, { method: "DELETE" }),
+  toggleReviewActive: (id)  => request(`/reviews/${id}/toggle`, { method: "PATCH" }),
 
   // Admin — areas
   createArea:     (body)     => request("/areas",         { method: "POST",   body: JSON.stringify(body) }),

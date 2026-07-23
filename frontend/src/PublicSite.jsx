@@ -47,8 +47,15 @@ export default function PublicSite() {
     document.title = `${business.name} — Licensed Electrician`;
   }, [business.name]);
 
+  const refreshReviews = async () => {
+    try {
+      const r = await api.getReviews();
+      if (r.data?.length > 0) setReviews(r.data);
+    } catch {}
+  };
+
   return (
-    <SiteDataContext.Provider value={{ business, services, reviews, areas }}>
+    <SiteDataContext.Provider value={{ business, services, reviews, areas, refreshReviews }}>
       <div className="min-h-screen bg-white" style={{ fontFamily: "'Inter', sans-serif" }}>
         <Nav />
         <Hero />

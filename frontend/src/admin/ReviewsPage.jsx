@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { api } from "../lib/api";
-import { Pencil, Trash2, Plus, X, Check, Star } from "lucide-react";
+import { Pencil, Trash2, Plus, X, Check, Star, Eye, EyeOff } from "lucide-react";
 
 const EMPTY = { name: "", area: "", rating: 5, text: "", date: "" };
 
@@ -12,7 +12,7 @@ export default function ReviewsPage() {
   const [saving, setSaving]   = useState(false);
 
   useEffect(() => {
-    api.getReviews().then((res) => { setReviews(res.data); setLoading(false); });
+    api.getReviewsAll().then((res) => { setReviews(res.data); setLoading(false); });
   }, []);
 
   const startEdit = (r) => { setEditing(r.id); setForm(r); };
@@ -39,6 +39,11 @@ export default function ReviewsPage() {
     if (!confirm("Delete this review?")) return;
     await api.deleteReview(id);
     setReviews((p) => p.filter((r) => r.id !== id));
+  };
+
+  const toggleActive = async (r) => {
+    const res = await api.toggleReviewActive(r.id);
+    setReviews((p) => p.map((x) => x.id === r.id ? res.data : x));
   };
 
   return (
@@ -68,6 +73,11 @@ export default function ReviewsPage() {
                 </select>
                 <input placeholder="Date label (e.g. 1 month ago)" value={form.date} onChange={(e) => setForm({ ...form, date: e.target.value })}
                   className="border border-gray-200 rounded-md px-3 py-2 text-sm outline-none focus:border-[#1E56E3]" />
+                <label className="flex items-center gap-2 text-sm col-span-2">
+                  <input type="checkbox" checked={form.active !== false} onChange={(e) => setForm({ ...form, active: e.target.checked })}
+                    className="accent-[#1E56E3]" />
+                  Active (visible on public site)
+                </label>
               </div>
               <textarea placeholder="Review text" value={form.text} onChange={(e) => setForm({ ...form, text: e.target.value })} rows={3}
                 className="w-full border border-gray-200 rounded-md px-3 py-2 text-sm outline-none focus:border-[#1E56E3] resize-none" />
@@ -83,18 +93,23 @@ export default function ReviewsPage() {
           )}
 
           {reviews.map((r) => (
-            <div key={r.id} className="bg-white rounded-xl px-5 py-4 border border-gray-200 flex items-start justify-between gap-4">
-              <div>
+            <div key={r.id} className={`bg-white rounded-xl px-5 py-4 border ${r.active ? "border-gray-200" : "border-orange-300 bg-orange-50/30"} flex items-start justify-between gap-4`}>
+              <div className="flex-1">
                 <div className="flex items-center gap-1 mb-1">
                   {Array.from({ length: 5 }).map((_, i) => (
                     <Star key={i} className="w-3.5 h-3.5" fill={i < r.rating ? "#FFC93C" : "none"} stroke={i < r.rating ? "#FFC93C" : "#D1D5DB"} />
                   ))}
+                  {!r.active && <span className="ml-2 text-xs text-orange-600 font-medium">Pending approval</span>}
                 </div>
                 <p className="text-sm font-semibold text-[#0F1420]">{r.name} · <span className="font-normal text-gray-500">{r.area}</span></p>
                 <p className="text-xs text-gray-500 mt-0.5">"{r.text}"</p>
                 <p className="text-xs text-gray-400 mt-1">{r.date}</p>
               </div>
               <div className="flex items-center gap-2 shrink-0">
+                <button onClick={() => toggleActive(r)} title={r.active ? "Hide from public" : "Show on public"}
+                  className={`p-1.5 ${r.active ? "text-gray-400 hover:text-orange-600" : "text-green-500 hover:text-green-700"}`}>
+                  {r.active ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
+                </button>
                 <button onClick={() => startEdit(r)} className="p-1.5 text-gray-400 hover:text-[#1E56E3]"><Pencil className="w-4 h-4" /></button>
                 <button onClick={() => remove(r.id)} className="p-1.5 text-gray-400 hover:text-red-500"><Trash2 className="w-4 h-4" /></button>
               </div>
