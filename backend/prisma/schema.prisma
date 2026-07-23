@@ -46,6 +46,7 @@ model Review {
   rating    Int
   text      String
   date      String
+  avatar    String?
   active    Boolean  @default(true)
   createdAt DateTime @default(now())
 }

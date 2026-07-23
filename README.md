@@ -7,7 +7,6 @@ React + Vite frontend · Node.js/Express backend (MVC) · PostgreSQL via Prisma
 ## Project structure
 
 ```
-sagar-retail/
 ├── frontend/
 │   └── src/
 │       ├── App.jsx               ← React Router root
