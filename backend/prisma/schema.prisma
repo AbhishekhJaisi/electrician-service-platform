@@ -46,9 +46,9 @@ model Review {
   rating    Int
   text      String
   date      String
-  avatar    String?
   active    Boolean  @default(true)
   createdAt DateTime @default(now())
+  avatar    String?
 }
 
 model Area {
@@ -68,12 +68,32 @@ model Enquiry {
   createdAt DateTime @default(now())
 }
 
-model Electrician{
-  id Int @id @default(autoincrement())
-  name String
-  phone String
-  email String?
+model Electrician {
+  id         Int     @id @default(autoincrement())
+  name       String
+  phone      String
+  email      String?
   experience Int
-  city String
-  state String
+  city       String
+  state      String
+}
+
+model Booking {
+  id            Int      @id @default(autoincrement())
+  name          String
+  phone         String
+  address       String
+  issueType     String
+  preferredTime String?
+  notes         String?
+  status        BookingStatus @default(NEW)
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+}
+
+enum BookingStatus {
+  NEW
+  CONTACTED
+  COMPLETED
+  CANCELLED
 }
