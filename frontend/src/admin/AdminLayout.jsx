@@ -1,15 +1,17 @@
 import { NavLink, Outlet, Navigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 import {
-  LayoutDashboard, Settings, Wrench, Star, MapPin, LogOut, Zap,
+  LayoutDashboard, Settings, Wrench, Star, MapPin, LogOut, Zap, Images, CalendarCheck,
 } from "lucide-react";
 
 const NAV = [
   { to: "/admin/dashboard", icon: LayoutDashboard, label: "Enquiries" },
+  { to: "/admin/bookings",  icon: CalendarCheck,   label: "Bookings" },
   { to: "/admin/business",  icon: Settings,         label: "Business Info" },
   { to: "/admin/services",  icon: Wrench,           label: "Services" },
   { to: "/admin/reviews",   icon: Star,             label: "Reviews" },
   { to: "/admin/areas",     icon: MapPin,           label: "Areas" },
+  { to: "/admin/gallery",   icon: Images,           label: "Gallery" },
 ];
 
 export default function AdminLayout() {

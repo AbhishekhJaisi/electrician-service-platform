@@ -1,6 +1,15 @@
 import { useState } from "react";
 import { X, ChevronLeft, ChevronRight } from "lucide-react";
-import { GALLERY } from "../data/constants";
+
+import job1 from "../assets/gallery/job1.jpeg";
+import job2 from "../assets/gallery/job2.jpeg";
+import job3 from "../assets/gallery/job3.jpeg";
+
+const GALLERY = [
+  { src: job1, caption: "" },
+  { src: job2, caption: "" },
+  { src: job3, caption: "" },
+];
 
 export default function PreviousWork() {
   const [active, setActive] = useState(null);
@@ -21,18 +30,26 @@ export default function PreviousWork() {
           Recent jobs around the tricity
         </h2>
 
-        {/* Masonry grid */}
         <div className="columns-2 md:columns-3 gap-4 [column-fill:_balance]">
-          {GALLERY.map((g, i) => (
+          {GALLERY.map((img, i) => (
             <button
               key={i}
               onClick={() => setActive(i)}
-              style={{ height: g.h }}
-              className="w-full mb-4 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center text-gray-400 text-xs hover:border-[#1E56E3]/50 transition-colors break-inside-avoid"
+              className="w-full mb-4 rounded-xl overflow-hidden border border-white/10 break-inside-avoid hover:border-[#1E56E3]/50 transition-colors block"
             >
-              <span style={{ fontFamily: "'IBM Plex Mono', monospace" }}>
-                [ {g.tag} photo ]
-              </span>
+              <img
+                src={img.src}
+                alt={img.caption || `Job photo ${i + 1}`}
+                className="w-full object-cover"
+              />
+              {img.caption && (
+                <div
+                  className="bg-[#0F1420]/90 text-gray-400 text-xs px-3 py-1.5 text-left truncate"
+                  style={{ fontFamily: "'IBM Plex Mono', monospace" }}
+                >
+                  {img.caption}
+                </div>
+              )}
             </button>
           ))}
         </div>
@@ -47,38 +64,39 @@ export default function PreviousWork() {
           <button
             className="absolute top-6 right-6 text-white"
             onClick={() => setActive(null)}
-            aria-label="Close lightbox"
+            aria-label="Close"
           >
             <X className="w-7 h-7" />
           </button>
 
           <button
             className="absolute left-4 md:left-10 text-white/70 hover:text-white"
-            onClick={(e) => {
-              e.stopPropagation();
-              setActive((active - 1 + GALLERY.length) % GALLERY.length);
-            }}
-            aria-label="Previous photo"
+            onClick={(e) => { e.stopPropagation(); setActive((active - 1 + GALLERY.length) % GALLERY.length); }}
+            aria-label="Previous"
           >
             <ChevronLeft className="w-8 h-8" />
           </button>
 
           <div
-            className="w-full max-w-md aspect-[4/5] bg-white/5 border border-white/10 rounded-xl flex items-center justify-center text-gray-400"
+            className="max-w-2xl w-full max-h-[85vh] flex flex-col items-center gap-3"
             onClick={(e) => e.stopPropagation()}
           >
-            <span style={{ fontFamily: "'IBM Plex Mono', monospace" }}>
-              [ {GALLERY[active].tag} — full image ]
-            </span>
+            <img
+              src={GALLERY[active].src}
+              alt={GALLERY[active].caption || `Job photo ${active + 1}`}
+              className="rounded-xl object-contain max-h-[80vh] w-full"
+            />
+            {GALLERY[active].caption && (
+              <p className="text-gray-300 text-sm" style={{ fontFamily: "'IBM Plex Mono', monospace" }}>
+                {GALLERY[active].caption}
+              </p>
+            )}
           </div>
 
           <button
             className="absolute right-4 md:right-10 text-white/70 hover:text-white"
-            onClick={(e) => {
-              e.stopPropagation();
-              setActive((active + 1) % GALLERY.length);
-            }}
-            aria-label="Next photo"
+            onClick={(e) => { e.stopPropagation(); setActive((active + 1) % GALLERY.length); }}
+            aria-label="Next"
           >
             <ChevronRight className="w-8 h-8" />
           </button>

@@ -12,6 +12,8 @@ import BusinessPage  from "./admin/BusinessPage";
 import ServicesPage  from "./admin/ServicesPage";
 import ReviewsPage   from "./admin/ReviewsPage";
 import AreasPage     from "./admin/AreasPage";
+import GalleryPage   from "./admin/GalleryPage";
+import BookingsAdmin from "./admin/Booking";
 
 export default function App() {
   return (
@@ -30,6 +32,8 @@ export default function App() {
             <Route path="services"  element={<ServicesPage />} />
             <Route path="reviews"   element={<ReviewsPage />} />
             <Route path="areas"     element={<AreasPage />} />
+            <Route path="gallery"   element={<GalleryPage />} />
+            <Route path="bookings"  element={<BookingsAdmin />} />
           </Route>
         </Routes>
       </AuthProvider>

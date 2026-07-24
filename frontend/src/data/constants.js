@@ -32,7 +32,7 @@ export const WHY_US = [
   { icon: ShieldCheck, label: "Licensed & Insured", sub: "Every job covered, every time" },
   { icon: Clock, label: "Same-Day Response", sub: "Most calls answered within the hour" },
   { icon: Wrench, label: "Own Equipment", sub: "No waiting on borrowed tools" },
-  { icon: BadgeCheck, label: "3+ Years Experience", sub: "Homes, offices, emergencies" },
+  { icon: BadgeCheck, label: "1+ Years Experience", sub: "Homes, offices, emergencies" },
   { icon: HomeIcon, label: "Doorstep Service", sub: "We come to you, city-wide" },
   { icon: AlertTriangle, label: "Emergency Repairs", sub: "Short circuits, outages, sparking" },
 ];

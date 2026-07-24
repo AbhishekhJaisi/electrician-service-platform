@@ -42,14 +42,18 @@ export default function DashboardPage() {
 
       {/* Summary cards */}
       <div className="grid grid-cols-3 gap-4 mb-8">
-        {[["New", counts.new, "yellow"], ["Contacted", counts.contacted, "blue"], ["Resolved", counts.resolved, "green"]].map(
-          ([label, count, color]) => (
-            <div key={label} className="bg-white rounded-xl p-5 border border-gray-200">
-              <p className="text-xs text-gray-500 uppercase tracking-wide">{label}</p>
-              <p className={`text-3xl font-bold mt-1 text-${color}-600`}>{count}</p>
-            </div>
-          )
-        )}
+        <div className="bg-white rounded-xl p-5 border border-gray-200">
+          <p className="text-xs text-gray-500 uppercase tracking-wide">New</p>
+          <p className="text-3xl font-bold mt-1 text-yellow-600">{counts.new}</p>
+        </div>
+        <div className="bg-white rounded-xl p-5 border border-gray-200">
+          <p className="text-xs text-gray-500 uppercase tracking-wide">Contacted</p>
+          <p className="text-3xl font-bold mt-1 text-blue-600">{counts.contacted}</p>
+        </div>
+        <div className="bg-white rounded-xl p-5 border border-gray-200">
+          <p className="text-xs text-gray-500 uppercase tracking-wide">Resolved</p>
+          <p className="text-3xl font-bold mt-1 text-green-600">{counts.resolved}</p>
+        </div>
       </div>
 
       {loading ? (

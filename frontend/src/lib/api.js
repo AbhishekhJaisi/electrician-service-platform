@@ -42,9 +42,23 @@ export const api = {
   getReviews:     ()         => request("/reviews"),
   getAreas:       ()         => request("/areas"),
   submitEnquiry:  (body)     => request("/enquiries", { method: "POST", body: JSON.stringify(body) }),
+  submitBooking:  (body)     => request("/bookings", { method: "POST", body: JSON.stringify(body) }),
 
   // Admin — business
   updateBusiness: (body)     => request("/business",      { method: "PUT",    body: JSON.stringify(body) }),
+  uploadOwnerPhoto: (formData) => {
+    const token = getToken();
+    return fetch(`${BASE}/business/photo`, {
+      method: "POST",
+      headers: token ? { Authorization: `Bearer ${token}` } : {},
+      body: formData,
+    }).then(async (res) => {
+      const text = await res.text();
+      const data = text ? JSON.parse(text) : {};
+      if (!res.ok) throw new Error(data.message || `Request failed (${res.status})`);
+      return data;
+    });
+  },
 
   // Admin — services
   createService:  (body)     => request("/services",      { method: "POST",   body: JSON.stringify(body) }),
@@ -68,4 +82,28 @@ export const api = {
   getEnquiries:   ()         => request("/enquiries"),
   updateEnquiryStatus: (id, status) =>
     request(`/enquiries/${id}/status`, { method: "PATCH", body: JSON.stringify({ status }) }),
+
+  // Admin — bookings
+  getBookings: () => request("/admin/bookings"),
+  updateBookingStatus: (id, status) =>
+    request(`/admin/bookings/${id}`, { method: "PATCH", body: JSON.stringify({ status }) }),
+
+  // Gallery (public)
+  getGallery: () => request("/gallery"),
+
+  // Admin — gallery
+  uploadGalleryImage: (formData) => {
+    const token = getToken();
+    return fetch(`${BASE}/admin/gallery`, {
+      method: "POST",
+      headers: token ? { Authorization: `Bearer ${token}` } : {},
+      body: formData,
+    }).then(async (res) => {
+      const text = await res.text();
+      const data = text ? JSON.parse(text) : {};
+      if (!res.ok) throw new Error(data.message || `Request failed (${res.status})`);
+      return data;
+    });
+  },
+  deleteGalleryImage: (id) => request(`/admin/gallery/${id}`, { method: "DELETE" }),
 };
