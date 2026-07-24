@@ -2,7 +2,7 @@ const express = require("express");
 const router = express.Router();
 
 const BookingController = require("../controllers/bookingController");
-const authAdmin = require("../middleware/authAdmin");
+const { protect } = require("../middleware/authMiddleware");
 
 // Public
 router.post(
@@ -13,13 +13,13 @@ router.post(
 // Admin
 router.get(
   "/admin/bookings",
-  authAdmin,
+  protect,
   BookingController.getAll
 );
 
 router.patch(
   "/admin/bookings/:id",
-  authAdmin,
+  protect,
   BookingController.updateStatus
 );
 

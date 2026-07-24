@@ -1,8 +1,9 @@
 const BusinessModel = require("../models/businessModel");
+const cache         = require("../lib/cache");
 
 /** GET /api/business */
 const getBusiness = async (_req, res) => {
-  const data = await BusinessModel.find();
+  const data = await cache.get("business", () => BusinessModel.find());
   return res.json({ success: true, data });
 };
 
@@ -16,7 +17,20 @@ const updateBusiness = async (req, res) => {
   if (payload.years) payload.years = Number(payload.years);
 
   const data = await BusinessModel.update(payload);
+  cache.bust("business");
   return res.json({ success: true, data });
 };
 
-module.exports = { getBusiness, updateBusiness };
+/** POST /api/business/photo  (protected) */
+const uploadOwnerPhoto = async (req, res, next) => {
+  try {
+    if (!req.file) return res.status(400).json({ error: "No file uploaded" });
+    await BusinessModel.update({ ownerPhoto: req.file.filename });
+    cache.bust("business");
+    return res.json({ success: true, ownerPhoto: req.file.filename });
+  } catch (err) {
+    next(err);
+  }
+};
+
+module.exports = { getBusiness, updateBusiness, uploadOwnerPhoto };

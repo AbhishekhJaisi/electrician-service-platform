@@ -1,5 +1,6 @@
-const { validationResult } = require("express-validator");
-const EnquiryModel         = require("../models/enquiryModel");
+const { validationResult }        = require("express-validator");
+const EnquiryModel                = require("../models/enquiryModel");
+const { notifyAdminNewEnquiry }   = require("../lib/whatsapp");
 
 /** POST /api/enquiries */
 const createEnquiry = async (req, res) => {
@@ -7,8 +8,13 @@ const createEnquiry = async (req, res) => {
   if (!errors.isEmpty()) {
     return res.status(422).json({ success: false, errors: errors.array() });
   }
+
   const { name, phone, email = "", service, message = "" } = req.body;
   const enquiry = await EnquiryModel.create({ name, phone, email, service, message });
+
+  // Fire WhatsApp notification — non-blocking, never crashes the request
+  notifyAdminNewEnquiry({ name, phone, email, service, message }).catch(() => {});
+
   return res.status(201).json({ success: true, data: enquiry });
 };
 

@@ -3,7 +3,7 @@ generator client {
 }
 
 datasource db {
-  provider = "mysql"
+  provider = "postgresql"
   url      = env("DATABASE_URL")
 }
 
@@ -15,16 +15,17 @@ model Admin {
 }
 
 model Business {
-  id       Int    @id @default(autoincrement())
-  name     String
-  owner    String
-  tagline  String
-  phone    String
-  whatsapp String
-  email    String
-  address  String
-  hours    String
-  years    Int
+  id         Int    @id @default(autoincrement())
+  name       String
+  owner      String
+  tagline    String
+  phone      String
+  whatsapp   String
+  email      String
+  address    String
+  hours      String
+  years      Int
+  ownerPhoto String @default("")
 }
 
 model Service {
@@ -46,9 +47,10 @@ model Review {
   rating    Int
   text      String
   date      String
+  title     String   @default("")
+  avatar    String   @default("")
   active    Boolean  @default(true)
   createdAt DateTime @default(now())
-  avatar    String?
 }
 
 model Area {
@@ -68,27 +70,18 @@ model Enquiry {
   createdAt DateTime @default(now())
 }
 
-model Electrician {
-  id         Int     @id @default(autoincrement())
-  name       String
-  phone      String
-  email      String?
-  experience Int
-  city       String
-  state      String
-}
-
 model Booking {
-  id            Int      @id @default(autoincrement())
+  id            Int           @id @default(autoincrement())
   name          String
   phone         String
   address       String
   issueType     String
   preferredTime String?
+  availability  String?
   notes         String?
   status        BookingStatus @default(NEW)
-  createdAt     DateTime @default(now())
-  updatedAt     DateTime @updatedAt
+  createdAt     DateTime      @default(now())
+  updatedAt     DateTime      @updatedAt
 }
 
 enum BookingStatus {
@@ -96,4 +89,12 @@ enum BookingStatus {
   CONTACTED
   COMPLETED
   CANCELLED
+}
+
+model GalleryImage {
+  id        Int      @id @default(autoincrement())
+  filename  String
+  caption   String   @default("")
+  order     Int      @default(0)
+  createdAt DateTime @default(now())
 }

@@ -1,9 +1,8 @@
 const prisma = require("../lib/prisma");
 
 const BusinessModel = {
-  // There is always exactly one business row (id=1)
-  find: ()          => prisma.business.findFirst(),
-  update: (data)    => prisma.business.updateMany({ data }),
+  find: ()       => prisma.business.findUnique({ where: { id: 1 } }),
+  update: (data) => prisma.business.update({ where: { id: 1 }, data }),
 };
 
 module.exports = BusinessModel;
