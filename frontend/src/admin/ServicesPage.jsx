@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { api } from "../lib/api";
 import { Pencil, Trash2, Plus, X, Check } from "lucide-react";
 
-const EMPTY = { name: "", desc: "", price: "", unit: "starting", time: "", icon: "Zap" };
+const EMPTY = { name: "", nameAs: "", desc: "", price: "", unit: "starting", time: "", icon: "Zap" };
 const ICONS  = ["Zap", "Fan", "Lightbulb", "Plug", "Power", "AlertTriangle", "Wind", "Flame", "Wrench"];
 
 export default function ServicesPage() {
@@ -65,6 +65,8 @@ export default function ServicesPage() {
               <div className="grid grid-cols-2 gap-3">
                 <input placeholder="Name" value={form.name} onChange={(e) => setForm({ ...form, name: e.target.value })}
                   className="border border-gray-200 rounded-md px-3 py-2 text-sm outline-none focus:border-[#1E56E3]" />
+                <input placeholder="Name (Assamese)" value={form.nameAs} onChange={(e) => setForm({ ...form, nameAs: e.target.value })}
+                  className="border border-gray-200 rounded-md px-3 py-2 text-sm outline-none focus:border-[#1E56E3]" />
                 <input placeholder="Time (e.g. 1 hour)" value={form.time} onChange={(e) => setForm({ ...form, time: e.target.value })}
                   className="border border-gray-200 rounded-md px-3 py-2 text-sm outline-none focus:border-[#1E56E3]" />
                 <input placeholder="Price (₹)" type="number" value={form.price} onChange={(e) => setForm({ ...form, price: e.target.value })}
@@ -93,6 +95,7 @@ export default function ServicesPage() {
             <div key={svc.id} className="bg-white rounded-xl px-5 py-4 border border-gray-200 flex items-center justify-between gap-4">
               <div>
                 <p className="font-semibold text-[#0F1420] text-sm">{svc.name}</p>
+                {svc.nameAs && <p className="text-xs text-gray-400 mt-0.5">{svc.nameAs}</p>}
                 <p className="text-xs text-gray-500 mt-0.5">{svc.desc}</p>
                 <p className="text-xs text-gray-400 mt-1">₹{svc.price} · {svc.unit} · {svc.time}</p>
               </div>

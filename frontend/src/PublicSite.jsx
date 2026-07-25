@@ -6,9 +6,8 @@ import { BUSINESS as FB, SERVICES as FS, REVIEWS as FR, AREAS as FA } from "./da
 
 import Nav              from "./components/Nav";
 import Hero             from "./components/Hero";
-import About            from "./components/About";
 import WireDivider      from "./components/WireDivider";
-import WhyChooseUs      from "./components/WhyChooseUs";
+import About            from "./components/About";
 import Services         from "./components/Services";
 import PreviousWork     from "./components/PreviousWork";
 import Reviews          from "./components/Reviews";
@@ -27,6 +26,7 @@ export default function PublicSite() {
   const [services, setServices] = useState(FS);
   const [reviews,  setReviews]  = useState(FR);
   const [areas,    setAreas]    = useState(FA);
+  const [licenses, setLicenses] = useState([]);
 
   useEffect(() => {
     // Fetch live data; silently fall back to constants if API is unreachable
@@ -35,11 +35,13 @@ export default function PublicSite() {
       api.getServices(),
       api.getReviews(),
       api.getAreas(),
-    ]).then(([b, s, r, a]) => {
-      if (b.status === "fulfilled" && b.value.data) setBusiness(b.value.data);
+      api.getLicenses(),
+    ]).then(([b, s, r, a, l]) => {
+      if (b.status === "fulfilled" && b.value.data) setBusiness((prev) => ({ ...prev, ...b.value.data }));
       if (s.status === "fulfilled" && s.value.data?.length > 0) setServices(s.value.data);
       if (r.status === "fulfilled" && r.value.data?.length > 0) setReviews(r.value.data);
       if (a.status === "fulfilled" && a.value.data?.length > 0) setAreas(a.value.data.map((x) => x.name));
+      if (l.status === "fulfilled" && l.value.data?.length > 0) setLicenses(l.value.data);
     });
   }, []);
 
@@ -55,16 +57,15 @@ export default function PublicSite() {
   };
 
   return (
-    <SiteDataContext.Provider value={{ business, services, reviews, areas, refreshReviews }}>
-      <div className="min-h-screen bg-white" style={{ fontFamily: "'Inter', sans-serif" }}>
+    <SiteDataContext.Provider value={{ business, services, reviews, areas, licenses, refreshReviews }}>
+      <div className="min-h-screen w-full bg-white" style={{ fontFamily: "'Inter', sans-serif" }}>
         <Nav />
         <Hero />
-        <About />
-        <WireDivider />
-        <WhyChooseUs />
         <Services />
+        <About />
         <PreviousWork />
         <Reviews />
+        <div className="border-t border-white/10" />
         <ServiceAreas />
         <Contact />
         <Footer />

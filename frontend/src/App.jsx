@@ -28,8 +28,8 @@ export default function App() {
           <Route path="/admin" element={<AdminLayout />}>
             <Route index element={<Navigate to="/admin/dashboard" replace />} />
             <Route path="dashboard" element={<DashboardPage />} />
-            <Route path="business"  element={<BusinessPage />} />
             <Route path="services"  element={<ServicesPage />} />
+            <Route path="business"  element={<BusinessPage />} />
             <Route path="reviews"   element={<ReviewsPage />} />
             <Route path="areas"     element={<AreasPage />} />
             <Route path="gallery"   element={<GalleryPage />} />

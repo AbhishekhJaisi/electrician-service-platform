@@ -59,6 +59,33 @@ export const api = {
       return data;
     });
   },
+  // Licenses
+  getLicenses: () => request("/licenses"),
+  uploadLicense: (formData) => {
+    const token = getToken();
+    return fetch(`${BASE}/licenses`, {
+      method: "POST",
+      headers: token ? { Authorization: `Bearer ${token}` } : {},
+      body: formData,
+    }).then(async (res) => {
+      const text = await res.text();
+      const data = text ? JSON.parse(text) : {};
+      if (!res.ok) throw new Error(data.message || `Request failed (${res.status})`);
+      return data;
+    });
+  },
+  deleteLicense: (id) => {
+    const token = getToken();
+    return fetch(`${BASE}/licenses/${id}`, {
+      method: "DELETE",
+      headers: token ? { Authorization: `Bearer ${token}` } : {},
+    }).then(async (res) => {
+      const text = await res.text();
+      const data = text ? JSON.parse(text) : {};
+      if (!res.ok) throw new Error(data.message || `Request failed (${res.status})`);
+      return data;
+    });
+  },
 
   // Admin — services
   createService:  (body)     => request("/services",      { method: "POST",   body: JSON.stringify(body) }),

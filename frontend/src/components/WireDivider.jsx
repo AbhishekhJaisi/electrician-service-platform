@@ -8,10 +8,10 @@ export default function WireDivider({ flip = false }) {
         <path
           d="M0 20 L280 20 L310 4 L340 36 L370 20 L1200 20"
           fill="none"
-          stroke="#1E56E3"
+          stroke="#C1662F"
           strokeWidth="2"
         />
-        <circle cx="340" cy="36" r="4" fill="#FFC93C" />
+        <circle cx="340" cy="36" r="4" fill="#E08A55" />
       </svg>
     </div>
   );

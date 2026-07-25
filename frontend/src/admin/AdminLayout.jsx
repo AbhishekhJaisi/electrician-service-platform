@@ -3,15 +3,17 @@ import { useAuth } from "../context/AuthContext";
 import {
   LayoutDashboard, Settings, Wrench, Star, MapPin, LogOut, Zap, Images, CalendarCheck,
 } from "lucide-react";
+import { Plug } from 'lucide-react';
+
 
 const NAV = [
   { to: "/admin/dashboard", icon: LayoutDashboard, label: "Enquiries" },
-  { to: "/admin/bookings",  icon: CalendarCheck,   label: "Bookings" },
-  { to: "/admin/business",  icon: Settings,         label: "Business Info" },
-  { to: "/admin/services",  icon: Wrench,           label: "Services" },
-  { to: "/admin/reviews",   icon: Star,             label: "Reviews" },
-  { to: "/admin/areas",     icon: MapPin,           label: "Areas" },
-  { to: "/admin/gallery",   icon: Images,           label: "Gallery" },
+  { to: "/admin/bookings", icon: CalendarCheck, label: "Bookings" },
+  { to: "/admin/business", icon: Settings, label: "Business Info" },
+  { to: "/admin/services", icon: Wrench, label: "Services" },
+  { to: "/admin/reviews", icon: Star, label: "Reviews" },
+  { to: "/admin/areas", icon: MapPin, label: "Areas" },
+  { to: "/admin/gallery", icon: Images, label: "Gallery" },
 ];
 
 export default function AdminLayout() {
@@ -23,9 +25,10 @@ export default function AdminLayout() {
       {/* Sidebar */}
       <aside className="w-56 bg-[#0F1420] flex flex-col shrink-0">
         <div className="flex items-center gap-2 px-5 py-5 border-b border-white/10">
-          <Zap className="w-5 h-5 text-[#FFC93C]" fill="#FFC93C" />
+          {/* <Zap className="w-5 h-5 text-[#FFC93C]" fill="#FFC93C" /> */}
+          <Plug className="w-5 h-5 text-[#FFC93C]" strokeWidth={2.5} />
           <span className="text-white font-bold text-sm" style={{ fontFamily: "'Space Grotesk', sans-serif" }}>
-            VoltFix Admin
+            Admin
           </span>
         </div>
         <nav className="flex-1 py-4 px-3 space-y-1">
@@ -34,10 +37,9 @@ export default function AdminLayout() {
               key={to}
               to={to}
               className={({ isActive }) =>
-                `flex items-center gap-3 px-3 py-2 rounded-lg text-sm transition-colors ${
-                  isActive
-                    ? "bg-[#1E56E3] text-white"
-                    : "text-gray-400 hover:text-white hover:bg-white/5"
+                `flex items-center gap-3 px-3 py-2 rounded-lg text-sm transition-colors ${isActive
+                  ? "bg-[#1E56E3] text-white"
+                  : "text-gray-400 hover:text-white hover:bg-white/5"
                 }`
               }
             >
