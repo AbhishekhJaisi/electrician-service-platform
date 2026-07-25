@@ -19,15 +19,17 @@ async function main() {
   if (!existingBusiness) {
     await prisma.business.create({
       data: {
-        name:     "VoltFix Electrical",
-        owner:    "Ranjit Singh",
+        name:     "Sagar Electricals",
+        owner:    "Sagar Sharma",
         tagline:  "Licensed electrician. Doorstep service across the tricity.",
-        phone:    "+91 98765 43210",
-        whatsapp: "919876543210",
-        email:    "contact@voltfix.example",
-        address:  "SCO 41, Phase 7, Sector 61, Mohali, Punjab",
+        phone:    "+91 7086173493",
+        whatsapp: "7086173493",
+        email:    "abhishekhwayne@gmail.com",
+        address:  "No. 4 Makum Pathar, Margherita, Assam, India – 786187",
+        addressAs: "মাকুম পাথাৰ নং ৪, মাৰ্ঘেৰিটা চক্ৰ, তিনিচুকীয়া জিলা, অসম, ভাৰত – ৭৮৬১৮৭",
+        shortLocation: "Margherita, Assam",
         hours:    "Mon–Sat, 8:00 AM – 9:00 PM · Emergency line 24/7",
-        years:    12,
+        years:    3,
       },
     });
   }
@@ -37,15 +39,15 @@ async function main() {
   if (serviceCount === 0) {
     await prisma.service.createMany({
       data: [
-        { name: "House Wiring",         desc: "Full or partial home rewiring, code-compliant.",    price: 2500, unit: "starting", time: "1–2 days",   icon: "Zap",           order: 1 },
-        { name: "Fan Installation",     desc: "Ceiling, wall & exhaust fan fitting.",               price: 300,  unit: "per fan",  time: "30 min",     icon: "Fan",           order: 2 },
-        { name: "Light Installation",   desc: "LED panels, chandeliers, outdoor lighting.",         price: 250,  unit: "per point",time: "30 min",     icon: "Lightbulb",     order: 3 },
-        { name: "Switch Board Repair",  desc: "Faulty boards, loose switches, sparking fixed.",     price: 200,  unit: "starting", time: "20 min",     icon: "Plug",          order: 4 },
-        { name: "MCB Installation",     desc: "Circuit breaker fitting & upgrades.",                price: 800,  unit: "per MCB",  time: "1 hour",     icon: "Power",         order: 5 },
-        { name: "Short Circuit Repair", desc: "Fast diagnosis, safe permanent fix.",                price: 500,  unit: "starting", time: "45 min",     icon: "AlertTriangle", order: 6 },
-        { name: "Inverter Installation",desc: "Setup, wiring & battery connection.",                price: 1200, unit: "starting", time: "1–2 hours",  icon: "Zap",           order: 7 },
-        { name: "AC Power Point",       desc: "Dedicated points for split & window AC.",            price: 900,  unit: "per point",time: "1 hour",     icon: "Wind",          order: 8 },
-        { name: "Geyser Installation",  desc: "Safe fitting with dedicated MCB.",                   price: 600,  unit: "starting", time: "1 hour",     icon: "Flame",         order: 9 },
+        { name: "House Wiring",         nameAs: "ঘৰৰ ৱায়াৰিং", desc: "Full or partial home rewiring, code-compliant.",    price: 2500, unit: "starting", time: "1–2 days",   icon: "Zap",           order: 1 },
+        { name: "Fan Installation",     nameAs: "ফেন ইনষ্টলেচন", desc: "Ceiling, wall & exhaust fan fitting.",               price: 300,  unit: "per fan",  time: "30 min",     icon: "Fan",           order: 2 },
+        { name: "Light Installation",   nameAs: "বাতি ইনষ্টলেচন", desc: "LED panels, chandeliers, outdoor lighting.",         price: 250,  unit: "per point",time: "30 min",     icon: "Lightbulb",     order: 3 },
+        { name: "Switch Board Repair",  nameAs: "ছুইচ বৰ্ড মেৰামতি", desc: "Faulty boards, loose switches, sparking fixed.",     price: 200,  unit: "starting", time: "20 min",     icon: "Plug",          order: 4 },
+        { name: "MCB Installation",     nameAs: "MCB ইনষ্টলেচন", desc: "Circuit breaker fitting & upgrades.",                price: 800,  unit: "per MCB",  time: "1 hour",     icon: "Power",         order: 5 },
+        { name: "Short Circuit Repair", nameAs: "শ্বৰ্ট চাৰ্কিট মেৰামতি", desc: "Fast diagnosis, safe permanent fix.",                price: 500,  unit: "starting", time: "45 min",     icon: "AlertTriangle", order: 6 },
+        { name: "Inverter Installation",nameAs: "ইনভাৰ্টাৰ ইনষ্টলেচন", desc: "Setup, wiring & battery connection.",                price: 1200, unit: "starting", time: "1–2 hours",  icon: "Zap",           order: 7 },
+        { name: "AC Power Point",       nameAs: "AC পাৱাৰ পইণ্ট", desc: "Dedicated points for split & window AC.",            price: 900,  unit: "per point",time: "1 hour",     icon: "Wind",          order: 8 },
+        { name: "Geyser Installation",  nameAs: "গিজাৰ ইনষ্টলেচন", desc: "Safe fitting with dedicated MCB.",                   price: 600,  unit: "starting", time: "1 hour",     icon: "Flame",         order: 9 },
       ],
     });
   }
@@ -55,9 +57,8 @@ async function main() {
   if (reviewCount === 0) {
     await prisma.review.createMany({
       data: [
-        { name: "Priya Malhotra", area: "Sector 34, Chandigarh", rating: 5, text: "Fixed a short circuit at 10pm the same night I called. Genuinely reliable.", date: "2 weeks ago" },
-        { name: "Harpreet Sidhu", area: "Kharar",                rating: 5, text: "Rewired our whole ground floor. Neat work, fair price, no surprises.",         date: "1 month ago" },
-        { name: "Anil Kapoor",    area: "Zirakpur",              rating: 4, text: "Prompt and polite. Slightly later than quoted but the work was solid.",         date: "1 month ago" },
+        { name: "Deep Jaisi",    area: "Margherita",   rating: 5, text: "Wow",                         date: "25/07/2026" },
+        { name: "Abhishek",      area: "Margherita",   rating: 5, text: "Great!",                       date: "25/07/2026" },
       ],
     });
   }

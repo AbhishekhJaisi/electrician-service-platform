@@ -29,7 +29,7 @@ const submitPublicReview = async (req, res) => {
     return res.status(422).json({ success: false, errors: errors.array() });
   }
   const { name, area, rating, text, date, avatar } = req.body;
-  const review = await ReviewModel.create({ name, area, rating: Number(rating), text, date, active: true, avatar: avatar || "" });
+  const review = await ReviewModel.create({ name, area: area || "Assam", rating: Number(rating), text, date, active: true, avatar: avatar || "" });
   cache.bust("reviews");
   return res.status(201).json({ success: true, data: review });
 };

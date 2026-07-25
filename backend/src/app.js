@@ -7,12 +7,13 @@ const prisma = require("./lib/prisma");
 
 const authRoutes     = require("./routes/authRoutes");
 const businessRoutes = require("./routes/businessRoutes");
+const licenseRoutes  = require("./routes/licenseRoutes");
 const serviceRoutes  = require("./routes/serviceRoutes");
 const reviewRoutes   = require("./routes/reviewRoutes");
+const galleryRoutes  = require("./routes/galleryRoutes");
 const enquiryRoutes  = require("./routes/enquiryRoutes");
 const areaRoutes     = require("./routes/areaRoutes");
 const bookingRoutes  = require("./routes/bookingRoutes");
-const galleryRoutes  = require("./routes/galleryRoutes");
 const { notFound, errorHandler } = require("./middleware/errorMiddleware");
 
 const app  = express();
@@ -28,6 +29,7 @@ app.use("/uploads", express.static(path.join(__dirname, "../uploads")));
 /* ── Routes ── */
 app.use("/api/auth",      authRoutes);
 app.use("/api/business",  businessRoutes);
+app.use("/api/licenses",  licenseRoutes);
 app.use("/api/services",  serviceRoutes);
 app.use("/api/reviews",   reviewRoutes);
 app.use("/api/enquiries", enquiryRoutes);

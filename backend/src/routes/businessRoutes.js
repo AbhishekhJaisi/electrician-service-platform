@@ -16,7 +16,7 @@ const storage = multer.diskStorage({
   },
   filename: (_req, file, cb) => {
     const ext = path.extname(file.originalname).toLowerCase();
-    cb(null, `owner${ext}`); // always overwrite — only one owner photo
+    cb(null, `owner${ext}`);
   },
 });
 const fileFilter = (_req, file, cb) => {

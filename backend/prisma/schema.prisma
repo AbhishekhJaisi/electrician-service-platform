@@ -15,7 +15,7 @@ model Admin {
 }
 
 model Business {
-  id         Int    @id @default(autoincrement())
+  id         Int      @id @default(autoincrement())
   name       String
   owner      String
   tagline    String
@@ -25,19 +25,30 @@ model Business {
   address    String
   hours      String
   years      Int
-  ownerPhoto String @default("")
+  ownerPhoto String   @default("")
+  licenses   License[]
+}
+
+model License {
+  id        Int      @id @default(autoincrement())
+  businessId Int
+  label     String
+  filename  String
+  createdAt DateTime @default(now())
+  business  Business @relation(fields: [businessId], references: [id])
 }
 
 model Service {
-  id     Int     @id @default(autoincrement())
-  name   String
-  desc   String
-  price  Int
-  unit   String  @default("starting")
-  time   String
-  icon   String
-  order  Int     @default(0)
-  active Boolean @default(true)
+  id      Int     @id @default(autoincrement())
+  name    String
+  nameAs  String  @default("")
+  desc    String
+  price   Int
+  unit    String  @default("starting")
+  time    String
+  icon    String
+  order   Int     @default(0)
+  active  Boolean @default(true)
 }
 
 model Review {
