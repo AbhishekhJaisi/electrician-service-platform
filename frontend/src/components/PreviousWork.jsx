@@ -16,7 +16,7 @@ export default function PreviousWork() {
 
   return (
     <section id="work" className="bg-[#0F1420]">
-      <div className="max-w-6xl mx-auto px-5 py-16">
+      <div className="max-w-6xl mx-auto px-5 py-10">
         <span
           className="text-xs font-semibold tracking-wide text-[#FFC93C] uppercase"
           style={{ fontFamily: "'IBM Plex Mono', monospace" }}
@@ -24,18 +24,18 @@ export default function PreviousWork() {
           Previous work
         </span>
         <h2
-          className="text-3xl font-bold mt-2 text-white mb-10"
+          className="text-3xl font-bold mt-2 text-white mb-6"
           style={{ fontFamily: "'Space Grotesk', sans-serif" }}
         >
           Recent jobs around the tricity
         </h2>
 
-        <div className="columns-2 md:columns-3 gap-4 [column-fill:_balance]">
+        <div className="columns-2 md:columns-3 gap-3 [column-fill:_balance]">
           {GALLERY.map((img, i) => (
             <button
               key={i}
               onClick={() => setActive(i)}
-              className="w-full mb-4 rounded-xl overflow-hidden border border-white/10 break-inside-avoid hover:border-[#1E56E3]/50 transition-colors block"
+              className="w-full mb-3 rounded-xl overflow-hidden border border-white/10 break-inside-avoid hover:border-[#1E56E3]/50 transition-colors block"
             >
               <img
                 src={img.src}

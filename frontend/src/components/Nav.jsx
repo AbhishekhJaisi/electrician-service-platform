@@ -13,7 +13,7 @@ export default function Nav() {
       <div className="max-w-6xl mx-auto px-5 h-16 flex items-center justify-between">
         {/* Logo */}
         <div className="flex items-center gap-2">
-          <Zap className="w-5 h-5 text-[#FFC93C]" fill="#FFC93C" />
+          {/* <Zap className="w-5 h-5 text-[#FFC93C]" fill="#FFC93C" /> */}
           <span className="font-bold tracking-tight text-white text-sm"
             style={{ fontFamily: "'Space Grotesk', sans-serif" }}>
             {BUSINESS.name}

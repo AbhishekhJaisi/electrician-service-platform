@@ -14,7 +14,7 @@ const FIELDS = [
   { key: "years",    label: "Years Experience", type: "number" },
 ];
 
-const IMG_BASE = "/uploads/business/";
+// Owner photo is now a full Cloudinary URL stored in form.ownerPhoto
 
 export default function BusinessPage() {
   const [form, setForm]           = useState({});
@@ -100,9 +100,7 @@ export default function BusinessPage() {
   // What to show in the photo box: preview > saved photo > placeholder
   const currentPhotoSrc = photoPreview
     ? photoPreview
-    : form.ownerPhoto
-    ? `${IMG_BASE}${form.ownerPhoto}`
-    : null;
+    : form.ownerPhoto || null;
 
   return (
     <div className="max-w-2xl">

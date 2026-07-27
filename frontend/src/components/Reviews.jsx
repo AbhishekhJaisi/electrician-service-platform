@@ -50,8 +50,8 @@ export default function Reviews() {
 
   return (
     <section id="reviews" className="bg-[#F8F9FC]">
-      <div className="max-w-6xl mx-auto px-5 py-16">
-        <div className="flex items-end justify-between mb-10 flex-wrap gap-4">
+      <div className="max-w-6xl mx-auto px-5 py-10">
+        <div className="flex items-end justify-between mb-6 flex-wrap gap-4">
           <div>
             <span className="text-xs font-semibold tracking-widest text-[#1E56E3] uppercase"
               style={{ fontFamily: "'IBM Plex Mono', monospace" }}>Testimonials</span>
@@ -64,10 +64,10 @@ export default function Reviews() {
           </button>
         </div>
 
-        <div className="grid md:grid-cols-3 gap-5">
+        <div className="grid md:grid-cols-3 gap-4">
           {currentReviews.map((r) => (
             <div key={r.id ?? r.name}
-              className="bg-white rounded-2xl p-6 border border-gray-100 shadow-sm hover:shadow-md transition-shadow">
+              className="bg-white rounded-xl p-5 border border-gray-200 shadow-sm hover:shadow-md transition-shadow">
               {/* Stars */}
               <div className="flex gap-0.5 mb-3">
                 {Array.from({ length: 5 }).map((_, i) => (
@@ -77,7 +77,7 @@ export default function Reviews() {
                 ))}
               </div>
               <p className="text-sm text-gray-600 leading-relaxed">&ldquo;{r.text}&rdquo;</p>
-              <div className="mt-4 pt-4 border-t border-gray-100 flex items-center justify-between">
+              <div className="mt-3 pt-3 border-t border-gray-200 flex items-center justify-between">
                 <div className="flex items-center gap-2.5">
                   {r.avatar ? (
                     <img src={r.avatar} alt={r.name} className="w-9 h-9 rounded-full object-cover border border-gray-100" />
@@ -98,7 +98,7 @@ export default function Reviews() {
         </div>
 
         {totalPages > 1 && (
-          <div className="flex justify-center mt-8 gap-2">
+          <div className="flex justify-center mt-6 gap-2">
             <button onClick={() => setCurrentPage(p => Math.max(1, p - 1))} disabled={currentPage === 1}
               className="px-4 py-2 border border-gray-200 rounded-lg text-sm disabled:opacity-40 hover:bg-gray-50">
               Previous

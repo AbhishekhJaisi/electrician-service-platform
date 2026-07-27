@@ -6,7 +6,6 @@ import { BUSINESS as FB, SERVICES as FS, REVIEWS as FR, AREAS as FA } from "./da
 
 import Nav              from "./components/Nav";
 import Hero             from "./components/Hero";
-import About            from "./components/About";
 import WireDivider      from "./components/WireDivider";
 import WhyChooseUs      from "./components/WhyChooseUs";
 import Services         from "./components/Services";
@@ -59,7 +58,6 @@ export default function PublicSite() {
       <div className="min-h-screen bg-white" style={{ fontFamily: "'Inter', sans-serif" }}>
         <Nav />
         <Hero />
-        <About />
         <WireDivider />
         <WhyChooseUs />
         <Services />

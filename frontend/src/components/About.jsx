@@ -1,7 +1,7 @@
 import { useSiteData } from "../PublicSite";
 import ownerPhoto from "../assets/business/owner.jpeg";
 
-const BADGES = ["Govt. Licensed", "Fully Insured", "100+ Jobs Done"];
+const BADGES = ["Govt. Licensed", "Fully Insured", "Certified Electrician"];
 
 export default function About() {
   const { business: BUSINESS } = useSiteData();
@@ -26,8 +26,7 @@ export default function About() {
           </h2>
           <p className="mt-4 text-gray-500 leading-relaxed text-[0.95rem]">
             {BUSINESS.years}+ years fixing, wiring, and upgrading homes and offices across the
-            tricity. Licensed, insured, and known for showing up when he says he will — no
-            callbacks, no shortcuts.
+            city. Licensed, insured, and known for showing up when he says he will. 
           </p>
           <div className="mt-7 flex flex-wrap gap-2">
             {BADGES.map((b) => (

@@ -1,22 +1,19 @@
-const express = require("express");
-const path    = require("path");
-const multer  = require("multer");
-const router  = express.Router();
+const express    = require("express");
+const multer     = require("multer");
+const { CloudinaryStorage } = require("multer-storage-cloudinary");
+const cloudinary = require("../lib/cloudinary");
+const router     = express.Router();
 
 const GalleryController = require("../controllers/galleryController");
 const { protect }       = require("../middleware/authMiddleware");
 
-// Store uploads in /uploads/gallery, keep original extension
-const storage = multer.diskStorage({
-  destination: (_req, _file, cb) => {
-    const dir = path.join(__dirname, "../../uploads/gallery");
-    require("fs").mkdirSync(dir, { recursive: true });
-    cb(null, dir);
-  },
-  filename: (_req, file, cb) => {
-    const ext  = path.extname(file.originalname).toLowerCase();
-    const name = `${Date.now()}-${Math.round(Math.random() * 1e6)}${ext}`;
-    cb(null, name);
+// Store uploads directly in Cloudinary under the "gallery" folder
+const storage = new CloudinaryStorage({
+  cloudinary,
+  params: {
+    folder:         "gallery",
+    allowed_formats: ["jpg", "jpeg", "png", "webp", "gif"],
+    transformation: [{ quality: "auto", fetch_format: "auto" }],
   },
 });
 
@@ -35,7 +32,7 @@ const upload = multer({ storage, fileFilter, limits: { fileSize: 5 * 1024 * 1024
 router.get("/gallery", GalleryController.getAll);
 
 // Admin
-router.post("/admin/gallery", protect, upload.single("image"), GalleryController.upload);
+router.post("/admin/gallery",      protect, upload.single("image"), GalleryController.upload);
 router.delete("/admin/gallery/:id", protect, GalleryController.remove);
 
 module.exports = router;

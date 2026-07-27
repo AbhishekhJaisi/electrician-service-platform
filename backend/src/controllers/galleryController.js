@@ -1,5 +1,4 @@
-const path = require("path");
-const fs   = require("fs");
+const cloudinary   = require("../lib/cloudinary");
 const GalleryModel = require("../models/galleryModel");
 
 const GalleryController = {
@@ -22,12 +21,18 @@ const GalleryController = {
 
       const caption = req.body.caption || "";
 
+      // multer-storage-cloudinary puts the public URL in req.file.path
+      // and the Cloudinary public_id in req.file.filename
+      const url      = req.file.path;       // secure_url
+      const publicId = req.file.filename;   // public_id (used for deletion)
+
       // Count existing to set order
       const all   = await GalleryModel.findAll();
       const order = all.length;
 
       const image = await GalleryModel.create({
-        filename: req.file.filename,
+        filename: publicId, // store public_id so we can delete from Cloudinary later
+        url,
         caption,
         order,
       });
@@ -43,10 +48,9 @@ const GalleryController = {
     try {
       const image = await GalleryModel.delete(req.params.id);
 
-      // Remove physical file
-      const filepath = path.join(__dirname, "../../uploads/gallery", image.filename);
-      if (fs.existsSync(filepath)) {
-        fs.unlinkSync(filepath);
+      // Delete from Cloudinary using the stored public_id
+      if (image.filename) {
+        await cloudinary.uploader.destroy(image.filename);
       }
 
       res.json({ success: true });

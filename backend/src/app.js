@@ -1,7 +1,6 @@
 require("dotenv").config();
 const express = require("express");
 const cors    = require("cors");
-const path    = require("path");
 
 const prisma = require("./lib/prisma");
 
@@ -21,9 +20,7 @@ const PORT = process.env.PORT || 3000;
 /* ── Middleware ── */
 app.use(cors());
 app.use(express.json());
-
-// Serve uploaded gallery images as static files
-app.use("/uploads", express.static(path.join(__dirname, "../uploads")));
+// Note: images are now served directly from Cloudinary CDN — no local /uploads needed
 
 /* ── Routes ── */
 app.use("/api/auth",      authRoutes);
