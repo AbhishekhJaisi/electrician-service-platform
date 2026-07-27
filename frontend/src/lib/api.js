@@ -56,10 +56,23 @@ export const api = {
       const text = await res.text();
       const data = text ? JSON.parse(text) : {};
       if (!res.ok) throw new Error(data.message || `Request failed (${res.status})`);
-      return data;
-    });
-  },
-  // Licenses
+       return data;
+     });
+   },
+   uploadHeroImage: (formData) => {
+     const token = getToken();
+     return fetch(`${BASE}/business/hero`, {
+       method: "POST",
+       headers: token ? { Authorization: `Bearer ${token}` } : {},
+       body: formData,
+     }).then(async (res) => {
+       const text = await res.text();
+       const data = text ? JSON.parse(text) : {};
+       if (!res.ok) throw new Error(data.message || `Request failed (${res.status})`);
+       return data;
+     });
+   },
+   // Licenses
   getLicenses: () => request("/licenses"),
   uploadLicense: (formData) => {
     const token = getToken();

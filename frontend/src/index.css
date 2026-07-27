@@ -4,4 +4,105 @@
 
 * {
   scroll-behavior: smooth;
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
 }
+
+html {
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+  overflow-x: hidden;
+}
+
+body {
+  font-family: Inter, system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overflow-x: hidden;
+}
+
+input, textarea, select, button {
+  font-synthesis: none;
+  -webkit-font-smoothing: antialiased;
+}
+
+@media (max-width: 640px) {
+  .max-w-container {
+    max-width: 100%;
+  }
+}
+
+/* ── Card ─────────────────────────────────────────────────────────── */
+@layer components {
+  .card {
+    @apply bg-white border border-gray-200 rounded-xl shadow-sm
+           transition-all duration-200 ease-out
+           hover:shadow-lg hover:-translate-y-1 hover:border-orange-300
+           active:scale-[0.98] active:shadow-sm active:translate-y-0;
+  }
+
+  /* icon bubble inside a card */
+  .card-icon {
+    @apply flex items-center justify-center rounded-xl bg-orange-50
+           transition-all duration-200
+           group-hover:bg-orange-100 group-hover:scale-110;
+  }
+
+  /* Primary CTA button */
+  .btn-primary {
+    @apply inline-flex items-center justify-center gap-2
+           bg-orange-500 text-white font-semibold rounded-lg
+           px-5 py-2.5 text-sm min-h-[44px]
+           shadow-sm shadow-orange-200
+           transition-all duration-150 ease-out
+           hover:bg-orange-600 hover:shadow-md hover:shadow-orange-300 hover:-translate-y-0.5
+           active:scale-[0.97] active:translate-y-0 active:shadow-sm
+           disabled:opacity-60 disabled:pointer-events-none;
+  }
+
+  /* Secondary / outline button */
+  .btn-outline {
+    @apply inline-flex items-center justify-center gap-2
+           border border-gray-200 bg-white text-soft-black font-semibold rounded-lg
+           px-5 py-2.5 text-sm min-h-[44px]
+           transition-all duration-150 ease-out
+           hover:border-orange-300 hover:bg-orange-50 hover:-translate-y-0.5
+           active:scale-[0.97] active:translate-y-0;
+  }
+
+  /* Area / tag pill */
+  .pill {
+    @apply inline-flex items-center gap-2 text-sm font-medium
+           bg-white border border-gray-200 px-4 py-2 rounded-full text-soft-black
+           transition-all duration-150
+           hover:border-orange-300 hover:bg-orange-50 hover:text-orange-600
+           active:scale-[0.96];
+  }
+
+  /* Form input */
+  .form-input {
+    @apply w-full border border-gray-200 bg-white rounded-lg
+           px-3.5 py-2.5 text-sm text-soft-black outline-none min-h-[44px]
+           transition-colors duration-150
+           focus:border-orange-400 focus:ring-2 focus:ring-orange-100
+           placeholder:text-warm-muted/60;
+  }
+}
+
+/* ── Animations ───────────────────────────────────────────────────── */
+@keyframes toastIn {
+  from { transform: translateX(-50%) translateY(20px); opacity: 0; }
+  to   { transform: translateX(-50%) translateY(0);    opacity: 1; }
+}
+@keyframes toastOut {
+  from { transform: translateX(-50%) translateY(0);    opacity: 1; }
+  to   { transform: translateX(-50%) translateY(20px); opacity: 0; }
+}
+.toast-enter { animation: toastIn  0.3s ease-out forwards; }
+.toast-exit  { animation: toastOut 0.3s ease-in  forwards; }
+
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(14px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.fade-up { animation: fadeUp 0.4s ease-out both; }

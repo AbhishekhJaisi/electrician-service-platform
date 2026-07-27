@@ -1,12 +1,27 @@
 import { useState, useEffect } from "react";
 import { api } from "../lib/api";
-import { Phone, Mail, Clock } from "lucide-react";
+import { Phone, Mail, Clock, TrendingUp, Users, CheckCircle2, Inbox } from "lucide-react";
 
 const STATUS_COLORS = {
   new:       "bg-yellow-100 text-yellow-800",
   contacted: "bg-blue-100 text-blue-800",
   resolved:  "bg-green-100 text-green-800",
 };
+
+const POLL_INTERVAL = 5000;
+
+function getThisWeekCount(enquiries) {
+  const now = new Date();
+  const weekAgo = new Date(now.getTime() - 7 * 24 * 60 * 60 * 1000);
+  return enquiries.filter((e) => new Date(e.createdAt) >= weekAgo).length;
+}
+
+function getTopService(enquiries) {
+  if (!enquiries.length) return "—";
+  const freq = {};
+  enquiries.forEach((e) => { if (e.service) freq[e.service] = (freq[e.service] || 0) + 1; });
+  return Object.entries(freq).sort((a, b) => b[1] - a[1])[0]?.[0] ?? "—";
+}
 
 export default function DashboardPage() {
   const [enquiries, setEnquiries] = useState([]);
@@ -15,13 +30,17 @@ export default function DashboardPage() {
   const load = async () => {
     try {
       const res = await api.getEnquiries();
-      setEnquiries(res.data);
+      setEnquiries(res.data ?? []);
     } finally {
       setLoading(false);
     }
   };
 
-  useEffect(() => { load(); }, []);
+  useEffect(() => {
+    load();
+    const interval = setInterval(load, POLL_INTERVAL);
+    return () => clearInterval(interval);
+  }, []);
 
   const setStatus = async (id, status) => {
     await api.updateEnquiryStatus(id, status);
@@ -34,25 +53,83 @@ export default function DashboardPage() {
     resolved:  enquiries.filter((e) => e.status === "resolved").length,
   };
 
+  const resolvedPct = enquiries.length
+    ? Math.round((counts.resolved / enquiries.length) * 100)
+    : 0;
+
   return (
     <div>
-      <h1 className="text-2xl font-bold text-[#0F1420] mb-6" style={{ fontFamily: "'Space Grotesk', sans-serif" }}>
-        Enquiries
-      </h1>
+      <div className="flex items-center justify-between mb-6">
+        <h1 className="text-2xl font-bold text-[#0F1420]" style={{ fontFamily: "'Space Grotesk', sans-serif" }}>
+          Enquiries
+        </h1>
+        <span className="text-xs font-mono text-gray-400">Auto-refresh every 5s</span>
+      </div>
 
-      {/* Summary cards */}
-      <div className="grid grid-cols-3 gap-4 mb-8">
-        <div className="bg-white rounded-xl p-5 border border-gray-200">
-          <p className="text-xs text-gray-500 uppercase tracking-wide">New</p>
+      {/* Analytics strip */}
+      <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 mb-6">
+        <div className="bg-white rounded-xl p-4 border border-gray-200 flex items-center gap-3">
+          <div className="w-9 h-9 rounded-lg bg-blue-50 flex items-center justify-center shrink-0">
+            <Inbox className="w-4 h-4 text-blue-500" />
+          </div>
+          <div>
+            <p className="text-[11px] text-gray-400 uppercase tracking-wide font-mono">Total</p>
+            <p className="text-2xl font-bold text-[#0F1420] leading-tight">{enquiries.length}</p>
+          </div>
+        </div>
+        <div className="bg-white rounded-xl p-4 border border-gray-200 flex items-center gap-3">
+          <div className="w-9 h-9 rounded-lg bg-purple-50 flex items-center justify-center shrink-0">
+            <TrendingUp className="w-4 h-4 text-purple-500" />
+          </div>
+          <div>
+            <p className="text-[11px] text-gray-400 uppercase tracking-wide font-mono">This week</p>
+            <p className="text-2xl font-bold text-[#0F1420] leading-tight">{getThisWeekCount(enquiries)}</p>
+          </div>
+        </div>
+        <div className="bg-white rounded-xl p-4 border border-gray-200 flex items-center gap-3">
+          <div className="w-9 h-9 rounded-lg bg-green-50 flex items-center justify-center shrink-0">
+            <CheckCircle2 className="w-4 h-4 text-green-500" />
+          </div>
+          <div>
+            <p className="text-[11px] text-gray-400 uppercase tracking-wide font-mono">Resolved</p>
+            <p className="text-2xl font-bold text-[#0F1420] leading-tight">{resolvedPct}%</p>
+          </div>
+        </div>
+        <div className="bg-white rounded-xl p-4 border border-gray-200 flex items-center gap-3">
+          <div className="w-9 h-9 rounded-lg bg-orange-50 flex items-center justify-center shrink-0">
+            <Users className="w-4 h-4 text-orange-500" />
+          </div>
+          <div>
+            <p className="text-[11px] text-gray-400 uppercase tracking-wide font-mono">Top service</p>
+            <p className="text-sm font-bold text-[#0F1420] leading-tight truncate max-w-[90px]" title={getTopService(enquiries)}>
+              {getTopService(enquiries)}
+            </p>
+          </div>
+        </div>
+      </div>
+
+      {/* Status summary */}
+      <div className="grid grid-cols-3 gap-3 mb-6">
+        <div className="bg-white rounded-xl p-4 border border-gray-200">
+          <p className="text-xs text-gray-500 uppercase tracking-wide font-mono">New</p>
           <p className="text-3xl font-bold mt-1 text-yellow-600">{counts.new}</p>
+          <div className="mt-2 h-1 bg-gray-100 rounded-full overflow-hidden">
+            <div className="h-full bg-yellow-400 rounded-full" style={{ width: enquiries.length ? `${(counts.new / enquiries.length) * 100}%` : "0%" }} />
+          </div>
         </div>
-        <div className="bg-white rounded-xl p-5 border border-gray-200">
-          <p className="text-xs text-gray-500 uppercase tracking-wide">Contacted</p>
+        <div className="bg-white rounded-xl p-4 border border-gray-200">
+          <p className="text-xs text-gray-500 uppercase tracking-wide font-mono">Contacted</p>
           <p className="text-3xl font-bold mt-1 text-blue-600">{counts.contacted}</p>
+          <div className="mt-2 h-1 bg-gray-100 rounded-full overflow-hidden">
+            <div className="h-full bg-blue-400 rounded-full" style={{ width: enquiries.length ? `${(counts.contacted / enquiries.length) * 100}%` : "0%" }} />
+          </div>
         </div>
-        <div className="bg-white rounded-xl p-5 border border-gray-200">
-          <p className="text-xs text-gray-500 uppercase tracking-wide">Resolved</p>
+        <div className="bg-white rounded-xl p-4 border border-gray-200">
+          <p className="text-xs text-gray-500 uppercase tracking-wide font-mono">Resolved</p>
           <p className="text-3xl font-bold mt-1 text-green-600">{counts.resolved}</p>
+          <div className="mt-2 h-1 bg-gray-100 rounded-full overflow-hidden">
+            <div className="h-full bg-green-400 rounded-full" style={{ width: enquiries.length ? `${(counts.resolved / enquiries.length) * 100}%` : "0%" }} />
+          </div>
         </div>
       </div>
 
@@ -63,19 +140,19 @@ export default function DashboardPage() {
       ) : (
         <div className="space-y-3">
           {enquiries.map((e) => (
-            <div key={e.id} className="bg-white rounded-xl p-5 border border-gray-200">
+            <div key={e.id} className="bg-white rounded-xl p-5 border border-gray-200 hover:border-gray-300 hover:shadow-sm transition-all duration-150">
               <div className="flex items-start justify-between gap-4 flex-wrap">
                 <div>
                   <p className="font-semibold text-[#0F1420]">{e.name}</p>
                   <p className="text-sm text-[#1E56E3] font-medium mt-0.5">{e.service}</p>
                   {e.message && <p className="text-sm text-gray-500 mt-1">{e.message}</p>}
-                  <div className="flex items-center gap-4 mt-2 text-xs text-gray-400">
+                  <div className="flex flex-wrap items-center gap-4 mt-2 text-xs text-gray-400">
                     <span className="flex items-center gap-1"><Phone className="w-3 h-3" /> {e.phone}</span>
                     {e.email && <span className="flex items-center gap-1"><Mail className="w-3 h-3" /> {e.email}</span>}
                     <span className="flex items-center gap-1"><Clock className="w-3 h-3" /> {new Date(e.createdAt).toLocaleDateString()}</span>
                   </div>
                 </div>
-                <div className="flex items-center gap-2">
+                <div className="flex items-center gap-2 shrink-0">
                   <span className={`text-xs font-medium px-2.5 py-1 rounded-full ${STATUS_COLORS[e.status]}`}>
                     {e.status}
                   </span>

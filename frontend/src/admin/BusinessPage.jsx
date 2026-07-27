@@ -1,6 +1,6 @@
-import { useState, useEffect, useRef } from "react";
+﻿import { useState, useEffect, useRef } from "react";
 import { api } from "../lib/api";
-import { Upload, FileText, UserCircle2, X, Trash2 } from "lucide-react";
+import { Upload, FileText, UserCircle2, X, Trash2, Image } from "lucide-react";
 
 const FIELDS = [
   { key: "name",     label: "Business Name",   type: "text" },
@@ -12,6 +12,9 @@ const FIELDS = [
   { key: "address",  label: "Address",          type: "text" },
   { key: "hours",    label: "Working Hours",    type: "text" },
   { key: "years",    label: "Years Experience", type: "number" },
+  { key: "radius",   label: "Coverage Radius (km)", type: "number" },
+  { key: "shortLocation", label: "Short Location", type: "text" },
+  { key: "map",      label: "Google Maps URL",  type: "text" },
 ];
 
 const IMG_BASE = "/uploads/business/";
@@ -30,6 +33,14 @@ export default function BusinessPage() {
   const [photoSaved, setPhotoSaved]       = useState(false);
   const [photoError, setPhotoError]       = useState("");
   const fileRef = useRef();
+
+  // Hero image upload state
+  const [heroPreview, setHeroPreview]   = useState(null);
+  const [heroFile, setHeroFile]         = useState(null);
+  const [heroUploading, setHeroUploading] = useState(false);
+  const [heroSaved, setHeroSaved]       = useState(false);
+  const [heroError, setHeroError]       = useState("");
+  const heroFileRef = useRef();
 
   // License state
   const [licenses, setLicenses]       = useState([]);
@@ -104,6 +115,45 @@ export default function BusinessPage() {
     if (fileRef.current) fileRef.current.value = "";
   };
 
+  // Hero image handlers
+  const onHeroChange = (e) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    setHeroError("");
+    if (heroPreview) URL.revokeObjectURL(heroPreview);
+    setHeroPreview(URL.createObjectURL(file));
+    setHeroFile(file);
+  };
+
+  const handleHeroUpload = async () => {
+    if (!heroFile) return;
+    setHeroUploading(true);
+    setHeroError("");
+    try {
+      const fd = new FormData();
+      fd.append("hero", heroFile);
+      const res = await api.uploadHeroImage(fd);
+      setForm((p) => ({ ...p, heroImage: res.heroImage }));
+      URL.revokeObjectURL(heroPreview);
+      setHeroPreview(null);
+      setHeroFile(null);
+      if (heroFileRef.current) heroFileRef.current.value = "";
+      setHeroSaved(true);
+      setTimeout(() => setHeroSaved(false), 2500);
+    } catch (err) {
+      setHeroError(err.message || "Upload failed");
+    } finally {
+      setHeroUploading(false);
+    }
+  };
+
+  const cancelHero = () => {
+    if (heroPreview) URL.revokeObjectURL(heroPreview);
+    setHeroPreview(null);
+    setHeroFile(null);
+    if (heroFileRef.current) heroFileRef.current.value = "";
+  };
+
   // License handlers
   const onLicenseChange = (e) => {
     const file = e.target.files?.[0];
@@ -174,6 +224,72 @@ export default function BusinessPage() {
       >
         Business Info
       </h1>
+
+      {/* ── Hero Image ── */}
+      <div className="bg-white rounded-xl p-6 border border-gray-200 mb-5">
+        <p className="text-sm font-medium text-[#0F1420] mb-4">Hero Image</p>
+
+        <div className="flex items-center gap-5">
+          <div className="w-32 h-20 rounded-xl bg-[#F5F6F8] border border-gray-200 overflow-hidden flex items-center justify-center shrink-0">
+            {heroPreview ? (
+              <img
+                src={heroPreview}
+                alt="Hero"
+                className="w-full h-full object-cover"
+              />
+            ) : form.heroImage ? (
+              <img
+                src={`${IMG_BASE}${form.heroImage}`}
+                alt="Hero"
+                className="w-full h-full object-cover"
+              />
+            ) : (
+              <Image className="w-8 h-8 text-gray-300" />
+            )}
+          </div>
+
+          <div className="flex-1 space-y-2">
+            <input
+              ref={heroFileRef}
+              type="file"
+              accept="image/jpeg,image/png,image/webp"
+              className="hidden"
+              onChange={onHeroChange}
+            />
+            <button
+              type="button"
+              onClick={() => heroFileRef.current?.click()}
+              className="flex items-center gap-2 border border-gray-200 text-sm px-4 py-2 rounded-md hover:bg-gray-50 transition-colors"
+            >
+              <Upload className="w-4 h-4" /> Choose hero image
+            </button>
+            <p className="text-xs text-gray-400">JPEG, PNG or WEBP â max 5 MB</p>
+
+            {heroFile && (
+              <div className="flex gap-2 pt-1">
+                <button
+                  type="button"
+                  onClick={handleHeroUpload}
+                  disabled={heroUploading}
+                  className="flex items-center gap-2 bg-[#1E56E3] text-white text-sm font-semibold px-4 py-1.5 rounded-md hover:bg-[#1846c2] disabled:opacity-60 transition-colors"
+                >
+                  {heroUploading ? "Uploading…" : "Save hero"}
+                </button>
+                <button
+                  type="button"
+                  onClick={cancelHero}
+                  className="border border-gray-200 text-sm px-4 py-1.5 rounded-md hover:bg-gray-50"
+                >
+                  Cancel
+                </button>
+              </div>
+            )}
+
+            {heroSaved  && <p className="text-green-600 text-xs">✓ Hero saved</p>}
+            {heroError  && <p className="text-red-500 text-xs">{heroError}</p>}
+          </div>
+        </div>
+      </div>
 
       {/* ── Owner Photo ── */}
       <div className="bg-white rounded-xl p-6 border border-gray-200 mb-5">

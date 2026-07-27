@@ -1,8 +1,17 @@
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { AuthProvider } from "./context/AuthContext";
+import { ToastProvider } from "./context/ToastContext";
 
 // Public site
 import PublicSite from "./PublicSite";
+import Layout from "./components/Layout";
+import Home from "./pages/Home";
+import About from "./pages/About";
+import Services from "./pages/Services";
+import WorkGallery from "./pages/WorkGallery";
+import Reviews from "./pages/Reviews";
+import ServiceAreas from "./pages/ServiceAreas";
+import Booking from "./pages/Booking";
 
 // Admin
 import LoginPage     from "./admin/LoginPage";
@@ -19,10 +28,20 @@ export default function App() {
   return (
     <BrowserRouter>
       <AuthProvider>
+        <ToastProvider>
         <Routes>
-          {/* Public site */}
-          <Route path="/" element={<PublicSite />} />
-
+          <Route element={<PublicSite />}>
+            <Route element={<Layout />}>
+              <Route index element={<Home />} />
+              <Route path="services" element={<Services />} />
+              <Route path="about" element={<About />} />
+              <Route path="work" element={<WorkGallery />} />
+              <Route path="reviews" element={<Reviews />} />
+              <Route path="areas" element={<ServiceAreas />} />
+              <Route path="booking" element={<Booking />} />
+              <Route path="*" element={<Navigate to="/" replace />} />
+            </Route>
+          </Route>
           {/* Admin */}
           <Route path="/admin/login" element={<LoginPage />} />
           <Route path="/admin" element={<AdminLayout />}>
@@ -36,6 +55,7 @@ export default function App() {
             <Route path="bookings"  element={<BookingsAdmin />} />
           </Route>
         </Routes>
+        </ToastProvider>
       </AuthProvider>
     </BrowserRouter>
   );
