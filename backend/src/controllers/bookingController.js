@@ -32,8 +32,19 @@ const BookingController = {
   // Admin updates booking status
   async updateStatus(req, res, next) {
     try {
+      const { status } = req.body;
+      if (!status) {
+        return res.status(400).json({ error: "Status is required" });
+      }
+
+      const formattedStatus = String(status).toUpperCase();
+      const allowed = ["NEW", "CONTACTED", "COMPLETED", "CANCELLED"];
+      if (!allowed.includes(formattedStatus)) {
+        return res.status(422).json({ error: `Status must be one of: ${allowed.join(", ")}` });
+      }
+
       const booking = await BookingModel.update(req.params.id, {
-        status: req.body.status,
+        status: formattedStatus,
       });
 
       res.json(booking);

@@ -5,11 +5,14 @@
   "main": "src/app.js",
   "scripts": {
     "start": "node src/app.js",
-    "dev": "npx kill-port 3000 & nodemon src/app.js",
-    "seed": "node prisma/seed.js"
+    "dev": "nodemon src/app.js",
+    "seed": "node prisma/seed.js",
+    "build": "prisma generate",
+    "db:push": "prisma db push",
+    "prisma:generate": "prisma generate"
   },
   "dependencies": {
-    "@prisma/client": "^6.19.3",
+    "@prisma/client": "^6.3.1",
     "bcryptjs": "^3.0.3",
     "cors": "^2.8.5",
     "dotenv": "^16.4.5",
@@ -21,6 +24,7 @@
   },
   "devDependencies": {
     "kill-port": "2.0.1",
-    "nodemon": "^3.1.4"
+    "nodemon": "^3.1.4",
+    "prisma": "^6.3.1"
   }
 }

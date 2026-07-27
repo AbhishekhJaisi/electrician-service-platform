@@ -15,18 +15,23 @@ model Admin {
 }
 
 model Business {
-  id         Int      @id @default(autoincrement())
-  name       String
-  owner      String
-  tagline    String
-  phone      String
-  whatsapp   String
-  email      String
-  address    String
-  hours      String
-  years      Int
-  ownerPhoto String   @default("")
-  licenses   License[]
+  id            Int       @id @default(autoincrement())
+  name          String
+  owner         String
+  tagline       String
+  phone         String
+  whatsapp      String
+  email         String
+  address       String
+  addressAs     String    @default("")
+  hours         String
+  years         Int
+  radius        Int       @default(15)
+  map           String    @default("")
+  shortLocation String    @default("")
+  ownerPhoto    String    @default("")
+  heroImage     String    @default("")
+  licenses      License[]
 }
 
 model License {

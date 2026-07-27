@@ -14,18 +14,20 @@
 
 const twilio = require("twilio");
 
-const isConfigured =
-  process.env.TWILIO_ACCOUNT_SID &&
-  process.env.TWILIO_AUTH_TOKEN &&
-  process.env.TWILIO_WHATSAPP_FROM &&
-  process.env.ADMIN_WHATSAPP_NUMBER;
+const isConfigured = () =>
+  Boolean(
+    process.env.TWILIO_ACCOUNT_SID &&
+    process.env.TWILIO_AUTH_TOKEN &&
+    process.env.TWILIO_WHATSAPP_FROM &&
+    process.env.ADMIN_WHATSAPP_NUMBER
+  );
 
 /**
  * Send a WhatsApp message to the admin when a new enquiry comes in.
  * Silently skips if Twilio is not configured (so the app doesn't crash).
  */
 async function notifyAdminNewEnquiry({ name, phone, service, message, email }) {
-  if (!isConfigured) {
+  if (!isConfigured()) {
     console.log("[WhatsApp] Not configured — skipping notification.");
     return;
   }
@@ -58,7 +60,7 @@ async function notifyAdminNewEnquiry({ name, phone, service, message, email }) {
       to:   `whatsapp:${process.env.ADMIN_WHATSAPP_NUMBER}`,
       body,
     });
-    console.log("[WhatsApp] Admin notification sent.");
+    console.log(`[WhatsApp] Admin notification sent to ${process.env.ADMIN_WHATSAPP_NUMBER}`);
   } catch (err) {
     // Never crash the request if WhatsApp fails
     console.error("[WhatsApp] Failed to send notification:", err.message);

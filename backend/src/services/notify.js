@@ -1,11 +1,13 @@
 const twilio = require("twilio");
 
-const TWILIO_SID   = process.env.TWILIO_ACCOUNT_SID;
-const TWILIO_TOKEN = process.env.TWILIO_AUTH_TOKEN;
-const TWILIO_FROM  = process.env.TWILIO_WHATSAPP_FROM;
-const ADMIN_WA     = process.env.ADMIN_WHATSAPP_NUMBER;
-
-const isConfigured = TWILIO_SID && TWILIO_TOKEN && TWILIO_FROM && ADMIN_WA;
+function isConfigured() {
+  return (
+    process.env.TWILIO_ACCOUNT_SID &&
+    process.env.TWILIO_AUTH_TOKEN &&
+    process.env.TWILIO_WHATSAPP_FROM &&
+    process.env.ADMIN_WHATSAPP_NUMBER
+  );
+}
 
 function buildMessage(booking) {
   const issueMap = {
@@ -38,12 +40,17 @@ function buildMessage(booking) {
 async function notifyAdmin(booking) {
   const message = buildMessage(booking);
 
-  if (!isConfigured) {
+  if (!isConfigured()) {
     console.log(`[Booking Notification]\n${message}`);
     return;
   }
 
   try {
+    const TWILIO_SID   = process.env.TWILIO_ACCOUNT_SID;
+    const TWILIO_TOKEN = process.env.TWILIO_AUTH_TOKEN;
+    const TWILIO_FROM  = process.env.TWILIO_WHATSAPP_FROM;
+    const ADMIN_WA     = process.env.ADMIN_WHATSAPP_NUMBER;
+
     await twilio(TWILIO_SID, TWILIO_TOKEN).messages.create({
       body: message,
       from: `whatsapp:${TWILIO_FROM}`,

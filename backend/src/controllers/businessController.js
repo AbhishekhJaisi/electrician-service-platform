@@ -9,12 +9,13 @@ const getBusiness = async (_req, res) => {
 
 /** PUT /api/business  (protected) */
 const updateBusiness = async (req, res) => {
-  const allowed = ["name", "owner", "tagline", "phone", "whatsapp", "email", "address", "hours", "years"];
+  const allowed = ["name", "owner", "tagline", "phone", "whatsapp", "email", "address", "hours", "years", "radius", "map", "shortLocation"];
   const payload = {};
   for (const key of allowed) {
     if (req.body[key] !== undefined) payload[key] = req.body[key];
   }
   if (payload.years) payload.years = Number(payload.years);
+  if (payload.radius) payload.radius = Number(payload.radius);
 
   const data = await BusinessModel.update(payload);
   cache.bust("business");
@@ -33,4 +34,16 @@ const uploadOwnerPhoto = async (req, res, next) => {
   }
 };
 
-module.exports = { getBusiness, updateBusiness, uploadOwnerPhoto };
+/** POST /api/business/hero  (protected) */
+const uploadHeroImage = async (req, res, next) => {
+  try {
+    if (!req.file) return res.status(400).json({ error: "No file uploaded" });
+    await BusinessModel.update({ heroImage: req.file.filename });
+    cache.bust("business");
+    return res.json({ success: true, heroImage: req.file.filename });
+  } catch (err) {
+    next(err);
+  }
+};
+
+module.exports = { getBusiness, updateBusiness, uploadOwnerPhoto, uploadHeroImage };

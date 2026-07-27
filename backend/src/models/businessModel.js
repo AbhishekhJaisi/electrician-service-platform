@@ -14,9 +14,13 @@ const BusinessModel = {
       phone: "+91 7086173493",
       whatsapp: "7086173493",
       email: "abhishekhwayne@gmail.com",
-      address: "SCO 41, Phase 7, Sector 61, Mohali, Punjab",
-      hours: "Mon–Sat, 8:00 AM – 9:00 PM · Emergency line 24/7",
+      address: "No. 4 Makum Pathar, Margherita, Tinsukia, Assam, India - 786187",
+      addressAs: "মাকুম পাথাৰ নং ৪, মাৰ্ঘেৰিটা চক্ৰ, তিনিচুকীয়া জিলা, অসম, ভাৰত – ৭৮৬১৮৭",
+      hours: "Mon–Sat, 8:00 AM – 9:00 PM",
       years: 3,
+      radius: 15,
+      map: "https://www.google.com/maps?q=Margherita,Assam&z=14&output=embed",
+      shortLocation: "Margherita, Assam",
     };
     return prisma.business.create({ data: { id: 1, ...defaults, ...data } });
   },

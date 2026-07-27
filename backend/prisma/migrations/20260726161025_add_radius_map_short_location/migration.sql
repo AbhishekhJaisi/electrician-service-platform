@@ -1,0 +1,5 @@
+-- AlterTable
+ALTER TABLE "Business" ADD COLUMN     "heroImage" TEXT NOT NULL DEFAULT '',
+ADD COLUMN     "map" TEXT NOT NULL DEFAULT '',
+ADD COLUMN     "radius" INTEGER NOT NULL DEFAULT 15,
+ADD COLUMN     "shortLocation" TEXT NOT NULL DEFAULT '';
