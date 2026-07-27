@@ -2,7 +2,7 @@ import { useState, useEffect, useRef } from "react";
 import { api } from "../lib/api";
 import { Trash2, Upload, ImagePlus, X } from "lucide-react";
 
-const IMG_BASE = "/uploads/gallery/";
+// Images are now served from Cloudinary — use img.url directly
 
 export default function GalleryPage() {
   const [images, setImages]     = useState([]);
@@ -151,7 +151,7 @@ export default function GalleryPage() {
               className="group relative rounded-xl overflow-hidden border border-gray-200 bg-white aspect-square"
             >
               <img
-                src={`${IMG_BASE}${img.filename}`}
+                src={img.url || img.filename}
                 alt={img.caption || "gallery image"}
                 className="w-full h-full object-cover"
               />

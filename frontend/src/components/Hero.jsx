@@ -1,137 +1,89 @@
 import { useSiteData } from "../PublicSite";
+import WireDivider from "./WireDivider";
+import heroImage from "../assets/gallery/hero.jpg";
 
-const services = [
-  { label: "Emergency", on: true },
-  { label: "Residential", on: false },
-  { label: "Commercial", on: false },
-  { label: "Wiring", on: false },
-  { label: "Inspection", on: false },
-  { label: "Repairs", on: false },
-];
-
-function Breaker({ label, on }) {
-  return (
-    <div
-      className={`rounded-[3px] border border-white/10 bg-panel-2 pb-3 pt-3.5 text-center`}
-    >
-      <div
-        className={`relative mx-auto mb-2.5 h-[34px] w-[22px] rounded-[3px] bg-ink border ${
-          on ? "border-copper" : "border-steel-dim"
-        }`}
-      >
-        <div
-          className={`absolute left-[3px] right-[3px] h-3.5 rounded-sm ${
-            on ? "bottom-[3px] bg-copper" : "top-[3px] bg-steel-dim"
-          }`}
-        />
-      </div>
-      <div
-        className={`font-mono text-[10px] tracking-wide ${
-          on ? "text-copper-light" : "text-steel-dim"
-        }`}
-      >
-        {label}
-      </div>
-    </div>
-  );
-}
+const BADGES = ["Govt. Licensed", "Fully Insured", "Certified Electrician"];
 
 export default function Hero() {
   const { business: BUSINESS } = useSiteData();
 
   return (
-<section
-  id="home"
-  className="relative w-full h-[calc(100dvh-5rem)] bg-ink text-paper font-body overflow-hidden"
->      {/* hazard stripe — absolute so it doesn't add to layout height */}
-      <div
-        className="absolute inset-x-0 top-0 h-1.5 w-full z-10"
-        style={{
-          background:
-            "repeating-linear-gradient(-45deg, #F0B429 0 14px, #101216 14px 28px)",
-        }}
-      />
-      <div
-        className="absolute inset-x-0 bottom-0 h-1.5 w-full z-10"
-        style={{
-          background:
-            "repeating-linear-gradient(-45deg, #F0B429 0 14px, #101216 14px 28px)",
-        }}
-      />
+    <section className="relative bg-[#0B0F1A] text-white h-screen flex flex-col overflow-hidden">
+      <div className="absolute inset-0 opacity-[0.04]" aria-hidden="true">
+        <svg width="100%" height="100%">
+          <pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse">
+            <path d="M40 0 L0 0 0 40" fill="none" stroke="#fff" strokeWidth="1" />
+          </pattern>
+          <rect width="100%" height="100%" fill="url(#grid)" />
+        </svg>
+      </div>
 
-      {/* content centered in exactly one viewport */}
-      <div className="relative z-0 flex h-full items-center">
-        <div className="mx-auto w-full px-6 md:px-10">
-          <div className="grid grid-cols-1 md:grid-cols-[1.1fr_0.9fr] items-center gap-4 md:gap-8 w-full">
-            {/* left column */}
-            <div>
-              <div className="mb-4 flex items-center gap-2.5 font-mono text-xs uppercase tracking-[0.14em] text-copper-light">
-                <span className="h-[7px] w-[7px] rounded-full bg-copper-light" />
-                Licensed &amp; insured electrician
-              </div>
+      {/* Blurred electrical background */}
+      <div className="absolute inset-0 overflow-hidden pointer-events-none" aria-hidden="true">
+        <div className="absolute -top-20 -right-20 w-[500px] h-[500px] bg-[#1E56E3]/20 rounded-full blur-[120px]" />
+        <div className="absolute top-1/3 -left-32 w-[400px] h-[400px] bg-[#FFC93C]/10 rounded-full blur-[100px]" />
+        <div className="absolute -bottom-20 right-1/4 w-[300px] h-[300px] bg-[#1E56E3]/15 rounded-full blur-[80px]" />
+      </div>
 
-              <h1 className="font-display font-semibold leading-[1.02] tracking-tight">
-                <span className="block text-lg md:text-[22px] font-medium text-steel mb-1.5">
-                  Electrical services, Margherita — Assam
-                </span>
-                <span className="block text-[52px] md:text-[76px] uppercase text-paper">
-                  Sagar <span className="text-copper-light">Sharma</span>
-                </span>
-              </h1>
-
-              <p className="mt-4 md:mt-5 max-w-[460px] text-[17px] leading-relaxed text-steel">
-                Residential, commercial and emergency electrical work.
-                Same-day callouts across the Margherita sub-division.
-              </p>
-
-              <div className="mt-5 md:mt-6 flex flex-wrap gap-3.5">
-                <a
-                  href={`tel:${BUSINESS.phone}`}
-                  className="rounded-[3px] bg-copper px-5 py-2.5 md:py-3.5 text-[15px] font-semibold text-ink"
-                >
-                  Call / ফোন কৰক
-                </a>
-                <a
-                  href="#booking"
-                  className="rounded-[3px] border border-white/10 px-5 py-2.5 md:py-3.5 text-[15px] font-semibold text-paper"
-                >
-                  Book / বুকিং কৰক
-                </a>
-              </div>
-
-              <div className="mt-5 md:mt-6 flex flex-wrap gap-5 font-mono text-xs text-steel">
-                {["Govt. licensed", "Fully insured", "2+ yrs experience"].map(
-                  (t) => (
-                    <div key={t} className="flex items-center gap-2">
-                      <span className="flex h-3.5 w-3.5 items-center justify-center rounded-full border border-copper text-[9px] text-copper-light">
-                        ✓
-                      </span>
-                      {t}
-                    </div>
-                  )
-                )}
+      <div className="relative flex-1 flex items-center">
+        <div className="max-w-6xl mx-auto px-5 w-full">
+          <div className="grid md:grid-cols-2 gap-10 items-center">
+            <div className="order-1 md:order-none">
+              <div className="relative aspect-square w-full max-w-sm rounded-2xl overflow-hidden border border-white/10 shadow-2xl">
+                <img
+                  src={heroImage}
+                  alt="Electrician"
+                  className="absolute inset-0 w-full h-full object-cover opacity-60"
+                  loading="eager"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-[#0B0F1A]/70 via-[#0B0F1A]/20 to-transparent pointer-events-none" />
               </div>
             </div>
 
-            {/* right column — breaker panel */}
-            <div className="rounded border border-white/10 bg-panel p-4 md:p-6">
-              <div className="mb-4 flex items-center justify-between border-b border-white/10 pb-3 font-mono text-[11px] uppercase tracking-wider text-steel-dim">
-                <span>Service panel</span>
-                <span className="flex items-center gap-1.5 text-copper-light">
-                  <span className="h-1.5 w-1.5 rounded-full bg-copper-light" />
-                  On call
-                </span>
+            <div>
+              <div className="inline-flex items-center gap-2 bg-[#FFC93C]/10 border border-[#FFC93C]/30 text-[#FFC93C] text-xs font-semibold px-3 py-1 rounded-full mb-4 tracking-wide">
+                <AlertTriangle className="w-3 h-3" /> Available Now
               </div>
 
-              <div className="grid grid-cols-3 gap-2">
-                {services.map((s) => (
-                  <Breaker key={s.label} {...s} />
+              <span className="text-xs font-semibold tracking-widest text-[#FFC93C] uppercase"
+                style={{ fontFamily: "'IBM Plex Mono', monospace" }}>Licensed Electrician</span>
+              <h1 className="text-3xl md:text-[3.5rem] font-bold leading-[1.08] mt-2"
+                style={{ fontFamily: "'Space Grotesk', sans-serif" }}>
+                {BUSINESS.owner}
+              </h1>
+
+              <p className="mt-3 text-gray-400 text-base md:text-lg leading-relaxed">
+                {BUSINESS.years}+ years fixing, wiring, and upgrading homes and offices across the
+                city. Licensed, insured, and known for showing up when he says he will.
+              </p>
+
+              <div className="mt-4 flex flex-wrap gap-2">
+                {BADGES.map((b) => (
+                  <span key={b}
+                    className="text-xs font-semibold bg-[#F5F7FF] text-[#1E56E3] border border-[#1E56E3]/15 px-3 py-1 rounded-full">
+                    {b}
+                  </span>
                 ))}
               </div>
 
-              <div className="mt-4 flex justify-between border-t border-white/10 pt-3 font-mono text-xs text-steel">
-                <span>Response time</span>
-                <b className="font-medium text-paper">Same day</b>
+              <div className="mt-5 flex flex-wrap gap-3">
+                <a href={`tel:${BUSINESS.phone}`}
+                  className="flex items-center gap-2 bg-[#1E56E3] hover:bg-[#2563eb] transition-colors text-white font-semibold px-5 py-2.5 rounded-lg">
+                  <Phone className="w-4 h-4" /> Call Now
+                </a>
+                <a href="#booking"
+                  className="flex items-center gap-2 border border-white/20 hover:border-white/40 hover:bg-white/5 transition-colors text-white font-semibold px-5 py-2.5 rounded-lg">
+                  <CalendarCheck className="w-4 h-4" /> Book a Service
+                </a>
+              </div>
+
+              <div className="mt-5 flex items-center gap-5 text-xs text-gray-500"
+                style={{ fontFamily: "'IBM Plex Mono', monospace" }}>
+                <span>{BUSINESS.years}+ yrs experience</span>
+                <span className="w-1 h-1 rounded-full bg-gray-700" />
+                <span>100+ issues fixed</span>
+                <span className="w-1 h-1 rounded-full bg-gray-700" />
+                <span>Tricity coverage</span>
               </div>
             </div>
           </div>

@@ -26,9 +26,11 @@ const updateBusiness = async (req, res) => {
 const uploadOwnerPhoto = async (req, res, next) => {
   try {
     if (!req.file) return res.status(400).json({ error: "No file uploaded" });
-    await BusinessModel.update({ ownerPhoto: req.file.filename });
+    // multer-storage-cloudinary: secure URL is in req.file.path
+    const ownerPhoto = req.file.path;
+    await BusinessModel.update({ ownerPhoto });
     cache.bust("business");
-    return res.json({ success: true, ownerPhoto: req.file.filename });
+    return res.json({ success: true, ownerPhoto });
   } catch (err) {
     next(err);
   }
