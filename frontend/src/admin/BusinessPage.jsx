@@ -237,7 +237,7 @@ export default function BusinessPage() {
               />
             ) : form.heroImage ? (
               <img
-                src={`${IMG_BASE}${form.heroImage}`}
+                src={form.heroImage}
                 alt="Hero"
                 className="w-full h-full object-cover"
               />
@@ -364,14 +364,16 @@ export default function BusinessPage() {
                   <span className="text-[10px] text-gray-400 shrink-0">{lic.filename}</span>
                 </div>
                 <div className="flex items-center gap-2 shrink-0">
-                  <a
-                    href={`${IMG_BASE}${lic.filename}`}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="text-xs text-[#1E56E3] font-semibold hover:underline"
-                  >
-                    View
-                  </a>
+                  {lic.url && (
+                    <a
+                      href={lic.url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-xs text-[#1E56E3] font-semibold hover:underline"
+                    >
+                      View
+                    </a>
+                  )}
                   <button
                     type="button"
                     onClick={() => handleLicenseDelete(lic.id)}

@@ -12,10 +12,9 @@ const storage = new CloudinaryStorage({
   cloudinary,
   params: {
     folder:          "business",
-    public_id:       () => "owner",   // always overwrite — only one owner photo
+    public_id:       () => "owner",
     allowed_formats: ["jpg", "jpeg", "png", "webp"],
     overwrite:       true,
-    transformation:  [{ quality: "auto", fetch_format: "auto" }],
   },
 });
 
@@ -25,11 +24,9 @@ const fileFilter = (_req, file, cb) => {
 };
 
 const upload = multer({ storage, fileFilter, limits: { fileSize: 5 * 1024 * 1024 } });
-const heroUpload = multer({ storage: heroStorage, fileFilter, limits: { fileSize: 5 * 1024 * 1024 } });
 
-router.get("/",      getBusiness);
-router.put("/",      protect, updateBusiness);
+router.get("/",       getBusiness);
+router.put("/",       protect, updateBusiness);
 router.post("/photo", protect, upload.single("photo"), uploadOwnerPhoto);
-router.post("/hero",  protect, heroUpload.single("hero"), uploadHeroImage);
 
 module.exports = router;

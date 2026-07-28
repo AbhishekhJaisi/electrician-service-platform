@@ -56,27 +56,13 @@ export const api = {
       const text = await res.text();
       const data = text ? JSON.parse(text) : {};
       if (!res.ok) throw new Error(data.message || `Request failed (${res.status})`);
-       return data;
-     });
-   },
-   uploadHeroImage: (formData) => {
-     const token = getToken();
-     return fetch(`${BASE}/business/hero`, {
-       method: "POST",
-       headers: token ? { Authorization: `Bearer ${token}` } : {},
-       body: formData,
-     }).then(async (res) => {
-       const text = await res.text();
-       const data = text ? JSON.parse(text) : {};
-       if (!res.ok) throw new Error(data.message || `Request failed (${res.status})`);
-       return data;
-     });
-   },
-   // Licenses
-  getLicenses: () => request("/licenses"),
-  uploadLicense: (formData) => {
+      return data;
+    });
+  },
+  // Hero image — not yet implemented on backend, gracefully fails
+  uploadHeroImage: (formData) => {
     const token = getToken();
-    return fetch(`${BASE}/licenses`, {
+    return fetch(`${BASE}/business/hero`, {
       method: "POST",
       headers: token ? { Authorization: `Bearer ${token}` } : {},
       body: formData,
@@ -87,18 +73,10 @@ export const api = {
       return data;
     });
   },
-  deleteLicense: (id) => {
-    const token = getToken();
-    return fetch(`${BASE}/licenses/${id}`, {
-      method: "DELETE",
-      headers: token ? { Authorization: `Bearer ${token}` } : {},
-    }).then(async (res) => {
-      const text = await res.text();
-      const data = text ? JSON.parse(text) : {};
-      if (!res.ok) throw new Error(data.message || `Request failed (${res.status})`);
-      return data;
-    });
-  },
+  // Licenses — not yet implemented on backend, returns empty gracefully
+  getLicenses:   () => Promise.resolve({ data: [] }),
+  uploadLicense: () => Promise.reject(new Error("License upload not yet available")),
+  deleteLicense: () => Promise.reject(new Error("License delete not yet available")),
 
   // Admin — services
   createService:  (body)     => request("/services",      { method: "POST",   body: JSON.stringify(body) }),

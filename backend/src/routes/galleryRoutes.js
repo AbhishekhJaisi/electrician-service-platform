@@ -11,9 +11,8 @@ const { protect }       = require("../middleware/authMiddleware");
 const storage = new CloudinaryStorage({
   cloudinary,
   params: {
-    folder:         "gallery",
+    folder:          "gallery",
     allowed_formats: ["jpg", "jpeg", "png", "webp", "gif"],
-    transformation: [{ quality: "auto", fetch_format: "auto" }],
   },
 });
 

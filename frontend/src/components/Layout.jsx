@@ -14,7 +14,6 @@ export default function Layout() {
   return (
     <div className="min-h-screen w-full bg-white font-body">
       <Nav />
-      <div className="h-[60px] md:h-[64px]" aria-hidden="true" />
       <Outlet />
       <Footer />
       <FloatingWhatsApp />

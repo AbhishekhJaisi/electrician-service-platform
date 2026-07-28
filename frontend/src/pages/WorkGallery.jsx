@@ -35,7 +35,7 @@ export default function WorkGallery() {
             >
               <div className="w-full h-full bg-panel-2 flex items-center justify-center">
                 <img
-                  src={`/uploads/gallery/${img.filename}`}
+                  src={img.url || img.filename}
                   alt={img.caption || `Job photo ${i + 1}`}
                 className="w-full h-full object-cover transition-all duration-300 scale-100 group-hover:scale-105"
                   style={{ opacity: 0 }}
@@ -80,7 +80,7 @@ export default function WorkGallery() {
               onClick={(e) => e.stopPropagation()}
             >
               <img
-                src={`/uploads/gallery/${gallery[active].filename}`}
+                src={gallery[active].url || gallery[active].filename}
                 alt={gallery[active].caption || `Job photo ${active + 1}`}
                 className="rounded-xl object-contain max-h-[80vh] w-full"
               />

@@ -6,7 +6,6 @@ const prisma = require("./lib/prisma");
 
 const authRoutes     = require("./routes/authRoutes");
 const businessRoutes = require("./routes/businessRoutes");
-const licenseRoutes  = require("./routes/licenseRoutes");
 const serviceRoutes  = require("./routes/serviceRoutes");
 const reviewRoutes   = require("./routes/reviewRoutes");
 const galleryRoutes  = require("./routes/galleryRoutes");
@@ -19,24 +18,20 @@ const app  = express();
 const PORT = process.env.PORT || 3000;
 
 /* ── Middleware ── */
-app.use(express.json());
-
 app.use(cors({
   origin: [
     "http://localhost:5173",
     "https://your-project.vercel.app",
-    /\.vercel\.app$/  // catches preview URLs, like you did on retail-billing-system
+    /\.vercel\.app$/,
   ],
-  credentials: true
+  credentials: true,
 }));
-
-// Serve uploaded gallery images as static files
-app.use("/uploads", express.static(path.join(__dirname, "../uploads")));
+app.use(express.json());
+// Images are now served from Cloudinary CDN — no local /uploads needed
 
 /* ── Routes ── */
 app.use("/api/auth",      authRoutes);
 app.use("/api/business",  businessRoutes);
-app.use("/api/licenses",  licenseRoutes);
 app.use("/api/services",  serviceRoutes);
 app.use("/api/reviews",   reviewRoutes);
 app.use("/api/enquiries", enquiryRoutes);
@@ -68,7 +63,6 @@ async function startServer() {
       throw err;
     });
 
-    // Graceful shutdown — releases the port cleanly so nodemon can restart
     const shutdown = () => {
       server.close(() => {
         prisma.$disconnect();

@@ -1,5 +1,5 @@
 ﻿import { useSiteData } from "../PublicSite";
-import { ShieldCheck, Clock, Wrench, BadgeCheck, HomeIcon, AlertTriangle } from "lucide-react";
+import { ShieldCheck, Clock, Wrench, BadgeCheck, Home as HomeIcon, AlertTriangle } from "lucide-react";
 
 const BADGES = ["Govt. Licensed", "Fully Insured", "Certified Electrician"];
 
@@ -30,7 +30,7 @@ export default function About() {
           <div className="md:col-span-2 rounded-xl overflow-hidden bg-white border border-gray-200 shadow-sm transition-all duration-300 hover:shadow-lg hover:-translate-y-1">
             {BUSINESS.ownerPhoto ? (
               <img
-                src={`/uploads/business/${BUSINESS.ownerPhoto}`}
+                src={BUSINESS.ownerPhoto}
                 alt={BUSINESS.owner}
                 className="w-full object-cover max-h-[280px] md:max-h-none md:min-h-[280px]"
                 onError={(e) => {
