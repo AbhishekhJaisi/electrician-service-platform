@@ -18,14 +18,25 @@ const app  = express();
 const PORT = process.env.PORT || 3000;
 
 /* ── Middleware ── */
-app.use(cors({
-  origin: [
-    "http://localhost:5173",
-    "https://your-project.vercel.app",
-    /\.vercel\.app$/,
-  ],
-  credentials: true,
-}));
+const allowedOrigins = [
+  "http://localhost:5173",
+  "https://sagar-electricals.vercel.app",
+];
+
+app.use(
+  cors({
+    origin: function (origin, callback) {
+      if (!origin) return callback(null, true);
+
+      if (allowedOrigins.includes(origin)) {
+        return callback(null, true);
+      }
+
+      return callback(new Error(`Origin ${origin} not allowed by CORS`));
+    },
+    credentials: true,
+  })
+);
 app.use(express.json());
 // Images are now served from Cloudinary CDN — no local /uploads needed
 
