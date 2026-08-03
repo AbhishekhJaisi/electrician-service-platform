@@ -13,7 +13,9 @@ import Reviews from "./pages/Reviews";
 import ServiceAreas from "./pages/ServiceAreas";
 import Booking from "./pages/Booking";
 
-// Admin
+import Portal      from "./pages/Portal";
+import MyBookings  from "./pages/MyBookings";
+import Receipt     from "./pages/Receipt";
 import LoginPage     from "./admin/LoginPage";
 import AdminLayout   from "./admin/AdminLayout";
 import DashboardPage from "./admin/DashboardPage";
@@ -42,6 +44,11 @@ export default function App() {
               <Route path="*" element={<Navigate to="/" replace />} />
             </Route>
           </Route>
+          {/* Customer portal */}
+          <Route path="/portal"                        element={<Portal />} />
+          <Route path="/portal/bookings"               element={<MyBookings />} />
+          <Route path="/portal/bookings/:id/receipt"   element={<Receipt />} />
+
           {/* Admin */}
           <Route path="/admin/login" element={<LoginPage />} />
           <Route path="/admin" element={<AdminLayout />}>

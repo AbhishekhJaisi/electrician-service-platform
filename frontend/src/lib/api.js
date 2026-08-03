@@ -106,6 +106,32 @@ export const api = {
   updateBookingStatus: (id, status) =>
     request(`/admin/bookings/${id}`, { method: "PATCH", body: JSON.stringify({ status }) }),
 
+  // Customer portal
+  customerSendOtp:    (email)       => request("/customer/otp/send",   { method: "POST", body: JSON.stringify({ email }) }),
+  customerVerifyOtp:  (email, otp)  => request("/customer/otp/verify", { method: "POST", body: JSON.stringify({ email, otp }) }),
+  customerGetBookings: () => {
+    const token = localStorage.getItem("customer_token");
+    return fetch(`${BASE}/customer/bookings`, {
+      headers: { Authorization: `Bearer ${token}` },
+    }).then(async (res) => {
+      const text = await res.text();
+      const data = text ? JSON.parse(text) : {};
+      if (!res.ok) throw new Error(data.message || `Request failed (${res.status})`);
+      return data;
+    });
+  },
+  customerGetReceipt: (id) => {
+    const token = localStorage.getItem("customer_token");
+    return fetch(`${BASE}/customer/bookings/${id}/receipt`, {
+      headers: { Authorization: `Bearer ${token}` },
+    }).then(async (res) => {
+      const text = await res.text();
+      const data = text ? JSON.parse(text) : {};
+      if (!res.ok) throw new Error(data.message || `Request failed (${res.status})`);
+      return data;
+    });
+  },
+
   // Gallery (public)
   getGallery: () => request("/gallery"),
 

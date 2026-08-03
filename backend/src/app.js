@@ -11,7 +11,8 @@ const reviewRoutes   = require("./routes/reviewRoutes");
 const galleryRoutes  = require("./routes/galleryRoutes");
 const enquiryRoutes  = require("./routes/enquiryRoutes");
 const areaRoutes     = require("./routes/areaRoutes");
-const bookingRoutes  = require("./routes/bookingRoutes");
+const customerRoutes  = require("./routes/customerRoutes");
+const bookingRoutes   = require("./routes/bookingRoutes");
 const { notFound, errorHandler } = require("./middleware/errorMiddleware");
 
 const app  = express();
@@ -48,6 +49,7 @@ app.use("/api/reviews",   reviewRoutes);
 app.use("/api/enquiries", enquiryRoutes);
 app.use("/api/areas",     areaRoutes);
 app.use("/api", bookingRoutes);
+app.use("/api/customer", customerRoutes);
 app.use("/api", galleryRoutes);
 
 /* ── Health check ── */

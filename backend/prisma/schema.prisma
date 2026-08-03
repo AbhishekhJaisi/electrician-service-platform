@@ -90,12 +90,15 @@ model Booking {
   id            Int           @id @default(autoincrement())
   name          String
   phone         String
+  email         String        @default("")
   address       String
   issueType     String
   preferredTime String?
   availability  String?
   notes         String?
   status        BookingStatus @default(NEW)
+  customerId    Int?
+  customer      Customer?     @relation(fields: [customerId], references: [id])
   createdAt     DateTime      @default(now())
   updatedAt     DateTime      @updatedAt
 }
@@ -105,6 +108,16 @@ enum BookingStatus {
   CONTACTED
   COMPLETED
   CANCELLED
+}
+
+model Customer {
+  id        Int       @id @default(autoincrement())
+  email     String    @unique
+  name      String    @default("")
+  otp       String?
+  otpExpiry DateTime?
+  createdAt DateTime  @default(now())
+  bookings  Booking[]
 }
 
 model GalleryImage {
